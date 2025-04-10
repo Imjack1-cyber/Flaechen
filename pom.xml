@@ -6,13 +6,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.m4automotive</groupId>
-	<artifactId>Kreise</artifactId>
+	<artifactId>Flaechen</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>Kreise</name>
+	<name>Flaechen</name>
 	<!-- FIXME change it to the project's website -->
-	<url>http://localhost:8080/Kreise</url>
+	<url>http://localhost:8080/Flaechen</url>
 
 	<!--
 	check for new dependecies updates:
@@ -43,6 +43,11 @@
 			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+		<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+</dependency>
 
 		<!--
 		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
@@ -76,6 +81,7 @@
 			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<reporting>
@@ -94,7 +100,7 @@
 	</reporting>
 
 	<build>
-		<finalName>Kreise</finalName>
+		<finalName>Flaechen</finalName>
 		<pluginManagement>
 			<!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
 			<plugins>

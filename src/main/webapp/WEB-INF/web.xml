@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
-	id="WebApp_ID" version="4.0">
-	<display-name>Kreise</display-name>
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	   <servlet>
-       <servlet-name>KreisServlet</servlet-name>
-       <servlet-class>de.m4automotive.controller.KreisServlet</servlet-class>
-   </servlet>
-   <servlet-mapping>
-       <servlet-name>KreisServlet</servlet-name>
-       <url-pattern>/KreisServlet</url-pattern>
-   </servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>Flaechen</display-name>
+  <welcome-file-list>
+    <welcome-file>kreise.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>KreisServlet</servlet-name>
+    <servlet-class>de.m4automotive.controller.KreisServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>KreisServlet</servlet-name>
+    <url-pattern>/KreisServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DreieckServlet</servlet-name>
+    <servlet-class>de.m4automotive.controller.DreieckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DreieckServlet</servlet-name>
+    <url-pattern>/DreieckServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

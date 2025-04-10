@@ -24,7 +24,8 @@ public class Kreis {
 
 	// Zylinder
 
-	double hoehe;
+	double hoehe1;
+	double hoehe2;
 	double grundflaecheZylinder1;
 	double grundflaecheZylinder2;
 	double grundflaecheZylinderGesamt;
@@ -70,7 +71,7 @@ public class Kreis {
 	public Kreis(int decimalPlaces, double radius1, double radius2, double durchmesser1, double durchmesser2,
 			double umfang1, double umfang2, double flaecheninhalt1, double flaecheninhalt2, double flaecheninhaltGesamt,
 			double kreisbogen1, double kreisbogen2, double kreisauschnitt1, double kreisauschnitt2,
-			double kreisauschnittGesamt, double alpha, double hoehe, double grundflaecheZylinder1,
+			double kreisauschnittGesamt, double alpha, double hoehe1, double hoehe2, double grundflaecheZylinder1,
 			double grundflaecheZylinder2, double grundflaecheZylinderGesamt, double mantelflaecheZylinder1,
 			double mantelflaecheZylinder2, double mantelflaecheZylinderGesamt, double oberflaecheZylinder1,
 			double oberflaecheZylinder2, double oberflaecheZylinderGesamt, double volumenZylinder1,
@@ -101,7 +102,8 @@ public class Kreis {
 		this.alpha = alpha;
 
 		// Zylinder
-		this.hoehe = hoehe;
+		this.hoehe1 = hoehe1;
+		this.hoehe2 = hoehe2;
 		this.grundflaecheZylinder1 = grundflaecheZylinder1;
 		this.grundflaecheZylinder2 = grundflaecheZylinder2;
 		this.grundflaecheZylinderGesamt = grundflaecheZylinderGesamt;
@@ -143,6 +145,70 @@ public class Kreis {
 	// Getter und Setter
 
 	// Vorraussetzungen
+
+	private boolean grundflaechenGleich;
+	private boolean zylinderVoluminaGleich; // For volumenZylinder1 == volumenZylinder2
+	private boolean zylinderGrundflaechenGleich;// For grundflaecheZylinder1 == grundflaecheZylinder2
+	private boolean kegelVoluminaGleich; // For volumenKegel1 == volumenKegel2
+	private boolean kegelGrundflaechenGleich; // For grundflaecheKegel1 == grundflaecheKegel2
+	private boolean kugelVoluminaGleich; // For volumenKugel1 == volumenKugel2
+	private boolean kreisausschnitteGleich;
+
+	public boolean isGrundflaechenGleich() {
+		return grundflaechenGleich;
+	}
+
+	public void setGrundflaechenGleich(boolean grundflaechenGleich) {
+		this.grundflaechenGleich = grundflaechenGleich;
+	}
+
+	public boolean isZylinderVoluminaGleich() {
+		return zylinderVoluminaGleich;
+	}
+
+	public void setZylinderVoluminaGleich(boolean zylinderVoluminaGleich) {
+		this.zylinderVoluminaGleich = zylinderVoluminaGleich;
+	}
+
+	public boolean isZylinderGrundflaechenGleich() {
+		return zylinderGrundflaechenGleich;
+	}
+
+	public void setZylinderGrundflaechenGleich(boolean zylinderGrundflaechenGleich) {
+		this.zylinderGrundflaechenGleich = zylinderGrundflaechenGleich;
+	}
+
+	public boolean isKegelVoluminaGleich() {
+		return kegelVoluminaGleich;
+	}
+
+	public void setKegelVoluminaGleich(boolean kegelVoluminaGleich) {
+		this.kegelVoluminaGleich = kegelVoluminaGleich;
+	}
+
+	public boolean isKegelGrundflaechenGleich() {
+		return kegelGrundflaechenGleich;
+	}
+
+	public void setKegelGrundflaechenGleich(boolean kegelGrundflaechenGleich) {
+		this.kegelGrundflaechenGleich = kegelGrundflaechenGleich;
+	}
+
+	public boolean isKugelVoluminaGleich() {
+		return kugelVoluminaGleich;
+	}
+
+	public void setKugelVoluminaGleich(boolean kugelVoluminaGleich) {
+		this.kugelVoluminaGleich = kugelVoluminaGleich;
+	}
+
+	public boolean isKreisausschnitteGleich() {
+		return kreisausschnitteGleich;
+	}
+
+	public void setKreisausschnitteGleich(boolean kreisausschnitteGleich) {
+		this.kreisausschnitteGleich = kreisausschnitteGleich;
+	}
 
 	public int getDecimalPlaces() {
 		return decimalPlaces;
@@ -276,12 +342,20 @@ public class Kreis {
 
 	// Zylinder
 
-	public double getHoehe() {
-		return hoehe;
+	public double getHoehe1() {
+		return hoehe1;
 	}
 
-	public void setHoehe(double hoehe) {
-		this.hoehe = hoehe;
+	public void setHoehe1(double hoehe1) {
+		this.hoehe1 = hoehe1;
+	}
+
+	public double getHoehe2() {
+		return hoehe2;
+	}
+
+	public void setHoehe2(double hoehe2) {
+		this.hoehe2 = hoehe2;
 	}
 
 	public double getGrundflaecheZylinder1() {
@@ -553,23 +627,24 @@ public class Kreis {
 				+ flaecheninhalt2 + ", flaecheninhaltGesamt=" + flaecheninhaltGesamt + ", kreisbogen1=" + kreisbogen1
 				+ ", kreisbogen2=" + kreisbogen2 + ", kreisausschnitt1=" + kreisausschnitt1 + ", kreisauschnitt2="
 				+ kreisausschnitt2 + ", kreisausschnittGesamt=" + kreisausschnittGesamt + ", alpha=" + alpha
-				+ ", hoehe=" + hoehe + ", grundflaecheZylinder1=" + grundflaecheZylinder1 + ", grundflaecheZylinder2="
-				+ grundflaecheZylinder2 + ", grundflaecheZylinderGesamt=" + grundflaecheZylinderGesamt
-				+ ", mantelflaecheZylinder1=" + mantelflaecheZylinder1 + ", mantelflaecheZylinder2="
-				+ mantelflaecheZylinder2 + ", mantelflaecheZylinderGesamt=" + mantelflaecheZylinderGesamt
-				+ ", oberflaecheZylinder1=" + oberflaecheZylinder1 + ", oberflaecheZylinder2=" + oberflaecheZylinder2
-				+ ", oberflaecheZylinderGesamt=" + oberflaecheZylinderGesamt + ", volumenZylinder1=" + volumenZylinder1
-				+ ", volumenZylinder2=" + volumenZylinder2 + ", volumenZylinderGesamt=" + volumenZylinderGesamt
-				+ ", grundflaecheKegel1=" + grundflaecheKegel1 + ", grundflaecheKegel2=" + grundflaecheKegel2
-				+ ", grundflaecheKegelGesamt=" + grundflaecheKegelGesamt + ", mantelflaecheKegel1="
-				+ mantelflaecheKegel1 + ", mantelflaecheKegel2=" + mantelflaecheKegel2 + ", mantelflaecheKegelGesamt="
-				+ mantelflaecheKegelGesamt + ", oberflaecheKegel1=" + oberflaecheKegel1 + ", oberflaecheKegel2="
-				+ oberflaecheKegel2 + ", oberflaecheKegelGesamt=" + oberflaecheKegelGesamt + ", volumenKegel1="
-				+ volumenKegel1 + ", volumenKegel2=" + volumenKegel2 + ", volumenKegelGesamt=" + volumenKegelGesamt
-				+ ", seitenhoehe1=" + seitenhoehe1 + ", seitenhoehe2=" + seitenhoehe2 + ", oberflaecheKugel1="
-				+ oberflaecheKugel1 + ", oberflaecheKugel2=" + oberflaecheKugel2 + ", oberflaecheKugelGesamt="
-				+ oberflaecheKugelGesamt + ", volumenKugel1=" + volumenKugel1 + ", volumenKugel2=" + volumenKugel2
-				+ ", volumenKugelGesamt=" + volumenKugelGesamt + "]";
+				+ ", hoehe1=" + hoehe1 + ", hoehe2=" + hoehe2 + ", grundflaecheZylinder1=" + grundflaecheZylinder1
+				+ ", grundflaecheZylinder2=" + grundflaecheZylinder2 + ", grundflaecheZylinderGesamt="
+				+ grundflaecheZylinderGesamt + ", mantelflaecheZylinder1=" + mantelflaecheZylinder1
+				+ ", mantelflaecheZylinder2=" + mantelflaecheZylinder2 + ", mantelflaecheZylinderGesamt="
+				+ mantelflaecheZylinderGesamt + ", oberflaecheZylinder1=" + oberflaecheZylinder1
+				+ ", oberflaecheZylinder2=" + oberflaecheZylinder2 + ", oberflaecheZylinderGesamt="
+				+ oberflaecheZylinderGesamt + ", volumenZylinder1=" + volumenZylinder1 + ", volumenZylinder2="
+				+ volumenZylinder2 + ", volumenZylinderGesamt=" + volumenZylinderGesamt + ", grundflaecheKegel1="
+				+ grundflaecheKegel1 + ", grundflaecheKegel2=" + grundflaecheKegel2 + ", grundflaecheKegelGesamt="
+				+ grundflaecheKegelGesamt + ", mantelflaecheKegel1=" + mantelflaecheKegel1 + ", mantelflaecheKegel2="
+				+ mantelflaecheKegel2 + ", mantelflaecheKegelGesamt=" + mantelflaecheKegelGesamt
+				+ ", oberflaecheKegel1=" + oberflaecheKegel1 + ", oberflaecheKegel2=" + oberflaecheKegel2
+				+ ", oberflaecheKegelGesamt=" + oberflaecheKegelGesamt + ", volumenKegel1=" + volumenKegel1
+				+ ", volumenKegel2=" + volumenKegel2 + ", volumenKegelGesamt=" + volumenKegelGesamt + ", seitenhoehe1="
+				+ seitenhoehe1 + ", seitenhoehe2=" + seitenhoehe2 + ", oberflaecheKugel1=" + oberflaecheKugel1
+				+ ", oberflaecheKugel2=" + oberflaecheKugel2 + ", oberflaecheKugelGesamt=" + oberflaecheKugelGesamt
+				+ ", volumenKugel1=" + volumenKugel1 + ", volumenKugel2=" + volumenKugel2 + ", volumenKugelGesamt="
+				+ volumenKugelGesamt + "]";
 	}
 
 }

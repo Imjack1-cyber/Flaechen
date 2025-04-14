@@ -1,6 +1,9 @@
 package de.m4automotive.controller;
 
 import java.io.IOException; // Importing IOException to handle input/output errors.
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException; // Importing ServletException for handling servlet-related errors.
@@ -20,6 +23,8 @@ public class DreieckServlet extends HttpServlet {
 	private static final Logger LOG = LogManager.getLogger(DreieckServlet.class);
 
 	int num = 0; // Counter for loop
+
+	private int decimalPlaces = 0;
 
 	Dreieck dreieck = new Dreieck();
 
@@ -104,7 +109,7 @@ public class DreieckServlet extends HttpServlet {
 		LOG.debug("berechneDreiecke() method called");
 
 		int decimalPlaces = Integer.parseInt(request.getParameter("decimalPlaces"));
-
+		LOG.debug("Decimal places: " + decimalPlaces);
 		double a = Double.parseDouble(request.getParameter("a"));
 		double b = Double.parseDouble(request.getParameter("b"));
 		double c = Double.parseDouble(request.getParameter("c"));
@@ -295,11 +300,7 @@ public class DreieckServlet extends HttpServlet {
 			// Calculate only if a, b, c are valid positive numbers
 			if (a > 1E-9 && b > 1E-9 && c > 1E-9 && !Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)) {
 				// Also verify triangle inequality for robustness
-				if ((a + b > c) && (a + c > b) && (b + c > a)) {
-					umfangDreieck = a + b + c;
-				} else {
-					umfangDreieck = Double.NaN; // Not a valid triangle
-				}
+				umfangDreieck = a + b + c;
 			} else {
 				umfangDreieck = Double.NaN; // Cannot calculate if sides are invalid/unknown
 			}
@@ -525,8 +526,9 @@ public class DreieckServlet extends HttpServlet {
 
 		if (flaecheninhaltDreieck == 0) {
 			// Try Heron's formula first if a, b, c are known and valid
-			if (a > 1E-9 && b > 1E-9 && c > 1E-9 && !Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)
-					&& (a + b > c) && (a + c > b) && (b + c > a)) { // Check triangle inequality
+			if (a > 1E-9 && b > 1E-9 && c > 1E-9 && !Double.isNaN(a) && !Double.isNaN(b) && !Double.isNaN(c)) { // Check
+																												// triangle
+																												// inequality
 				double s = (a + b + c) / 2.0;
 				double valInsideSqrt = s * (s - a) * (s - b) * (s - c);
 				if (valInsideSqrt > 1E-12) { // Use a smaller tolerance here as area can be small
@@ -593,34 +595,89 @@ public class DreieckServlet extends HttpServlet {
 			}
 		}
 
-		dreieck.setA(Math.round(a * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setA(a);
 		LOG.debug("a: " + a);
-		dreieck.setB(Math.round(b * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setB(b);
 		LOG.debug("b: " + b);
-		dreieck.setC(Math.round(c * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setC(c);
 		LOG.debug("c: " + c);
-		dreieck.setUmfangDreieck(Math.round(umfangDreieck * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setUmfangDreieck(umfangDreieck);
 		LOG.debug("umfangDreieck: " + umfangDreieck);
-		dreieck.setFlaecheninhaltDreieck(
-				Math.round(flaecheninhaltDreieck * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setFlaecheninhaltDreieck(flaecheninhaltDreieck);
 		LOG.debug("flaecheninhaltDreieck: " + flaecheninhaltDreieck);
-		dreieck.setHoeheA(Math.round(hoeheA * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setHoeheA(hoeheA);
 		LOG.debug("hoeheA: " + hoeheA);
-		dreieck.setHoeheB(Math.round(hoeheB * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setHoeheB(hoeheB);
 		LOG.debug("hoeheB: " + hoeheB);
-		dreieck.setHoeheC(Math.round(hoeheC * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setHoeheC(hoeheC);
 		LOG.debug("hoeheC: " + hoeheC);
-		dreieck.setAlpha(Math.round(alpha * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setAlpha(alpha);
 		LOG.debug("alpha: " + alpha);
-		dreieck.setBeta(Math.round(beta * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setBeta(beta);
 		LOG.debug("beta: " + beta);
-		dreieck.setGamma(Math.round(gamma * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
+		dreieck.setGamma(gamma);
 		LOG.debug("gamma: " + gamma);
+
+		// Set the formatter IN the bean
+		LOG.debug("Setting DecimalFormat into Kreis bean...");
+		dreieck.setDecimalFormat(getDecimalFormat(decimalPlaces)); // <<< Set formatter HERE
 
 		request.setAttribute("dreieck", dreieck);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/dreiecke.jsp");
 		dispatcher.forward(request, response);
 
+	}
+
+	public DecimalFormat getDecimalFormat(int decimalPlaces) {
+
+		LOG.debug("getDecimalFormat called for decimalPlaces: {}", decimalPlaces); // Use parameterized logging
+
+		String pattern;
+		switch (decimalPlaces) {
+		case 0:
+			pattern = "0";
+			break; // Use "0" for integer display
+		case 1:
+			pattern = "0.0";
+			break;
+		case 2:
+			pattern = "0.00";
+			break;
+		case 3:
+			pattern = "0.000";
+			break;
+		case 4:
+			pattern = "0.0000";
+			break;
+		case 5:
+			pattern = "0.00000";
+			break;
+		case 6:
+			pattern = "0.000000";
+			break;
+		case 7:
+			pattern = "0.0000000";
+			break;
+		case 8:
+			pattern = "0.00000000";
+			break;
+		case 9:
+			pattern = "0.000000000";
+			break;
+		case 10:
+			pattern = "0.0000000000";
+			break;
+		default:
+			pattern = "0.00";
+			break; // Default to 2 decimal places with leading zero
+		}
+
+		// Explicitly set symbols for German locale (comma decimal separator)
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.GERMANY);
+		DecimalFormat df = new DecimalFormat(pattern, symbols);
+
+		LOG.debug("Created DecimalFormat with pattern '{}' using German symbols", pattern);
+		return df;
 	}
 
 }

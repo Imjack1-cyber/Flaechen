@@ -1,186 +1,249 @@
-// --- Requirements Map (Triangle Version - NEEDS TO BE COMPLETED ACCURATELY) ---
-       // This is a SIMPLIFIED example. Real triangle calculations have complex interdependencies.
-       // You MUST fill this map based on the actual calculation logic in your DreieckServlet.
-       const calculationRequirementsMap = {
-           // --- Triangle Sides ---
-           'a': [ ['b', 'c', 'alpha'], ['b', 'c', 'gamma'], ['b', 'beta', 'gamma'], /* ... more Laws of Sines/Cosines ... */ ['umfangDreieck', 'b', 'c'] ],
-           'b': [ ['a', 'c', 'beta'], ['a', 'c', 'alpha'], ['a', 'alpha', 'gamma'], /* ... */ ['umfangDreieck', 'a', 'c'] ],
-           'c': [ ['a', 'b', 'gamma'], ['a', 'b', 'beta'], ['b', 'beta', 'alpha'], /* ... */ ['umfangDreieck', 'a', 'b'] ],
-           // --- Triangle Heights ---
-           'hoeheA': [ ['flaecheninhaltDreieck', 'a'], ['b', 'gamma'], ['c', 'beta'] /* ... (using trigonometry) ... */ ],
-           'hoeheB': [ ['flaecheninhaltDreieck', 'b'], ['a', 'gamma'], ['c', 'alpha'] /* ... */ ],
-           'hoeheC': [ ['flaecheninhaltDreieck', 'c'], ['a', 'beta'], ['b', 'alpha'] /* ... */ ],
-           // --- Triangle Perimeter & Area ---
-           'umfangDreieck': [ ['a', 'b', 'c'] ],
-           'flaecheninhaltDreieck': [
-               ['a', 'hoeheA'], ['b', 'hoeheB'], ['c', 'hoeheC'], // Base-Height formulas
-               ['a', 'b', 'gamma'], ['a', 'c', 'beta'], ['b', 'c', 'alpha'], // Trig Area formula (0.5 * ab * sin(C))
-               ['a', 'b', 'c'] // Heron's formula (requires intermediate step for semi-perimeter)
-           ],
-           // --- Triangle Angles ---
-           // Requires sides (Law of Cosines) or other angles (Sum=180) or sides+angle (Law of Sines)
-           'alpha': [ ['beta', 'gamma'], ['a', 'b', 'c'], ['a', 'b', 'beta'], ['a', 'c', 'gamma'] /* ... */ ],
-           'beta': [ ['alpha', 'gamma'], ['a', 'b', 'c'], ['b', 'a', 'alpha'], ['b', 'c', 'gamma'] /* ... */ ],
-           'gamma': [ ['alpha', 'beta'], ['a', 'b', 'c'], ['c', 'a', 'alpha'], ['c', 'b', 'beta'] /* ... */ ],
-        };
+// --- Requirements Map for Dreiecke (TRIANGLES) ---
+const calculationRequirementsMap = {
+	'a': [
+		['b', 'c', 'alpha'], ['b', 'alpha', 'beta'], ['c', 'alpha', 'gamma'],
+		['flaecheninhaltDreieck', 'hoeheA'],
+		['umfangDreieck', 'b', 'c'],
+	],
+	'b': [
+		['a', 'c', 'beta'], ['a', 'alpha', 'beta'], ['c', 'beta', 'gamma'],
+		['flaecheninhaltDreieck', 'hoeheB'],
+		['umfangDreieck', 'a', 'c'],
+	],
+	'c': [
+		['a', 'b', 'gamma'], ['a', 'alpha', 'gamma'], ['b', 'beta', 'gamma'],
+		['flaecheninhaltDreieck', 'hoeheC'],
+		['umfangDreieck', 'a', 'b'],
+	],
+	'hoeheA': [
+		['flaecheninhaltDreieck', 'a'],
+		['b', 'gamma'], ['c', 'beta'],
+		['a', 'b', 'c'] // SSS -> Height (JS will add equality check)
+	],
+	'hoeheB': [
+		['flaecheninhaltDreieck', 'b'],
+		['a', 'gamma'], ['c', 'alpha'],
+		['a', 'b', 'c'] // SSS -> Height (JS will add equality check)
+	],
+	'hoeheC': [
+		['flaecheninhaltDreieck', 'c'],
+		['a', 'beta'], ['b', 'alpha'],
+		['a', 'b', 'c'] // SSS -> Height (JS will add equality check)
+	],
+	'umfangDreieck': [['a', 'b', 'c']],
+	'flaecheninhaltDreieck': [
+		['a', 'hoeheA'], ['b', 'hoeheB'], ['c', 'hoeheC'],
+		['a', 'b', 'gamma'], ['b', 'c', 'alpha'], ['a', 'c', 'beta'],
+		['a', 'b', 'c'], // Heron's
+	],
+	'alpha': [
+		['beta', 'gamma'], ['a', 'b', 'c'],
+		['a', 'b', 'beta'], ['a', 'c', 'gamma'],
+	],
+	'beta': [
+		['alpha', 'gamma'], ['a', 'b', 'c'],
+		['b', 'a', 'alpha'], ['b', 'c', 'gamma'],
+	],
+	'gamma': [
+		['alpha', 'beta'], ['a', 'b', 'c'],
+		['c', 'a', 'alpha'], ['c', 'b', 'beta'],
+	],
+};
 
-       // --- DOM References ---
-       const inputFields = document.querySelectorAll('.content input[type="text"]');
-       const resultsContainer = document.querySelector('.Results'); // Reference to results container
-       const copyFeedbackSpan = document.getElementById('copy-feedback'); // Reference for global feedback
+// --- DOM References ---
+let inputFields = null;
+let resultsContainer = null;
+let copyFeedbackSpan = null;
+let dreieckForm = null;
 
-       // --- Helper Functions ---
-       function isNonZeroNumeric(inputElement) {
-           if (!inputElement) return false;
-           const value = inputElement.value.trim();
-           if (value === '') return false;
-           // Allow comma as decimal separator for input parsing
-           const numValue = parseFloat(value.replace(',', '.'));
-           return !isNaN(numValue) && numValue !== 0;
-       }
+// --- Helper Functions ---
+function getNumericValue(inputElement) {
+	if (!inputElement) return NaN;
+	const value = inputElement.value.trim().replace(',', '.');
+	if (value === '') return NaN;
+	return parseFloat(value);
+}
 
-       function checkConditionMet(requiredInputIds) {
-           return requiredInputIds.every(id => isNonZeroNumeric(document.getElementById(id)));
-       }
+// Checks for valid, non-zero numbers (using tolerance)
+function isNonZeroNumeric(inputElement) {
+	const numValue = getNumericValue(inputElement);
+	const epsilon = 1E-9; // Tolerance for floating point zero comparison
+	return !isNaN(numValue) && Math.abs(numValue) > epsilon;
+}
 
-       // --- Result Value Check Function ---
-       function isResultValueValid(pElement) {
-            // Triangles don't have the 'equal' notice concept like Kreise/Zylinder had
-            // So we simplify this - just check if the value is valid and not a placeholder/error
-            const valueSpan = pElement.querySelector('.result-value');
-            if (!valueSpan) return false;
-            const valueText = valueSpan.textContent.trim();
-            // Check against typical non-calculated or error values from backend
-            const errorValues = ['0', '0.0', '-1', '-1.0', 'NaN', 'Infinity', '-Infinity', '', null, 'undefined'];
-            // Check if the backend might output "Nicht berechnet" or similar
-            // const notCalculatedStrings = ['Nicht berechnet', 'Error'];
-            // return !errorValues.includes(valueText) && !notCalculatedStrings.some(s => valueText.includes(s));
-            return !errorValues.includes(valueText); // Simpler check
-       }
+// Checks if all dependencies are valid non-zero numbers
+function checkConditionMet(requiredInputIds) {
+	return requiredInputIds.every(id => {
+		const element = document.getElementById(id);
+		return element && isNonZeroNumeric(element);
+	});
+}
 
-
-       // --- Main Highlighting Logic ---
-       function updateInputHighlighting() {
-           inputFields.forEach(targetInput => {
-               const targetId = targetInput.id;
-               let isProvided = false;
-               let isCalculable = false;
-
-               if (isNonZeroNumeric(targetInput)) {
-                   isProvided = true;
-               } else {
-                   const requirements = calculationRequirementsMap[targetId];
-                   if (requirements) {
-                       for (const condition of requirements) {
-                            // Check if *all* inputs in the current condition group are met
-                           if (checkConditionMet(condition)) {
-                               isCalculable = true;
-                               break; // Found a way to calculate it, no need to check other conditions
-                            }
-                       }
-                   }
-               }
-
-               targetInput.classList.toggle('input-has-value', isProvided);
-               // Only add 'input-calculable' if it's NOT provided but IS calculable
-               targetInput.classList.toggle('input-calculable', !isProvided && isCalculable);
-               // Ensure calculable is removed if it becomes provided
-               if (isProvided) {
-                   targetInput.classList.remove('input-calculable');
-               }
-           });
-       }
-
-
-       function updateResultHighlighting() {
-            const resultParagraphs = document.querySelectorAll('.Results p');
-            resultParagraphs.forEach(pElement => {
-               const isValid = isResultValueValid(pElement);
-               // No 'notice' concept for triangles, just check validity
-               pElement.classList.toggle('result-calculated', isValid);
-            });
-       }
-
-       // --- Copy Functionality (Identical to kreise.jsp) ---
-        function handleCopyClick(event) {
-           const button = event.target.closest('.copy-button');
-           if (!button) return;
-
-           const targetId = button.dataset.copyTargetId;
-           const resultElement = document.getElementById(targetId);
-           const valueSpan = resultElement?.querySelector('.result-value');
-           const labelSpan = resultElement?.querySelector('.result-label');
-
-           if (valueSpan && labelSpan) {
-               const textToCopy = valueSpan.textContent.trim();
-               const labelText = labelSpan.textContent.trim().replace(':', ''); // Get label text for feedback
-
-               navigator.clipboard.writeText(textToCopy).then(() => {
-                   // --- SUCCESS ---
-                   button.classList.add('copied');
-
-                   // Optional: Display feedback message (can be removed if icons are enough)
-                   // if (copyFeedbackSpan) {
-                   //    copyFeedbackSpan.textContent = `${labelText} kopiert!`;
-                   //    copyFeedbackSpan.style.display = 'inline';
-                   //    copyFeedbackSpan.style.color = 'green';
-                   //}
-
-                   setTimeout(() => {
-                       // if (copyFeedbackSpan) {
-                       //     copyFeedbackSpan.style.display = 'none';
-                       //     copyFeedbackSpan.textContent = '';
-                       //}
-                        button.classList.remove('copied');
-                   }, 1500);
-
-               }).catch(err => {
-                   // --- FAILURE ---
-                   console.error('Fehler beim Kopieren: ', err);
-                    if (copyFeedbackSpan) {
-                        copyFeedbackSpan.textContent = `Kopieren fehlgeschlagen!`;
-                        copyFeedbackSpan.style.color = 'red';
-                        copyFeedbackSpan.style.display = 'inline';
-                        setTimeout(() => {
-                            copyFeedbackSpan.style.display = 'none';
-                            copyFeedbackSpan.textContent = '';
-                            copyFeedbackSpan.style.color = 'green'; // Reset color
-                        }, 2000);
-                    } else {
-                       alert('Kopieren fehlgeschlagen.'); // Fallback alert
-                    }
-                    button.classList.remove('copied');
-               });
-           } else {
-                // --- Elements Not Found ---
-               console.error('Konnte Wert zum Kopieren nicht finden für ID:', targetId);
-                if (copyFeedbackSpan) {
-                   copyFeedbackSpan.textContent = `Fehler: Element nicht gefunden!`;
-                   copyFeedbackSpan.style.color = 'red';
-                   copyFeedbackSpan.style.display = 'inline';
-                   setTimeout(() => {
-                       copyFeedbackSpan.style.display = 'none';
-                       copyFeedbackSpan.textContent = '';
-                       copyFeedbackSpan.style.color = 'green'; // Reset color
-                   }, 2000);
-                }
-           }
-       }
+// **** NEW: Helper function to check if values of specified inputs are equal ****
+function checkValuesAreEqual(ids) {
+	if (!ids || ids.length < 2) {
+		return true; // Or false? Let's say true for 0 or 1 ID.
+	}
+	const firstValue = getNumericValue(document.getElementById(ids[0]));
+	// If the first value isn't a number, they can't be equal in a meaningful way here
+	if (isNaN(firstValue)) {
+		return false;
+	}
+	const epsilon = 1E-9; // Tolerance for float comparison
+	for (let i = 1; i < ids.length; i++) {
+		const currentElement = document.getElementById(ids[i]);
+		const currentValue = getNumericValue(currentElement);
+		// Fail if any subsequent value is not a number or not equal to the first
+		if (isNaN(currentValue) || Math.abs(firstValue - currentValue) > epsilon) {
+			return false;
+		}
+	}
+	return true; // All were numbers and equal within tolerance
+}
 
 
-       // --- Event Listeners & Initial State ---
-       document.addEventListener('DOMContentLoaded', () => {
-           inputFields.forEach(input => {
-               input.addEventListener('input', updateInputHighlighting);
-               // Also trigger on blur in case user pastes value and clicks away
-               input.addEventListener('blur', updateInputHighlighting);
-           });
+// --- Result Value Checking ---
+function isResultInvalidNumericText(valueText) {
+	const errorValues = ['NaN', 'Infinity', '-Infinity', 'Ungültig', 'Fehler'];
+	return errorValues.includes(valueText) || valueText.trim() === '';
+}
 
-           // Add event listener for copy buttons using event delegation
-           if (resultsContainer) {
-               resultsContainer.addEventListener('click', handleCopyClick);
-           }
+function isResultZeroText(valueText) {
+	const numValue = parseFloat(valueText.replace(',', '.'));
+	const epsilon = 1E-9;
+	return !isNaN(numValue) && Math.abs(numValue) < epsilon;
+}
 
-           updateInputHighlighting(); // Set initial input state
-           updateResultHighlighting(); // Set initial result state
-       });
+function isResultCalculatedGreen(pElement) {
+	if (pElement.classList.contains('result-error') || pElement.classList.contains('result-zero')) {
+		return false;
+	}
+	const valueSpan = pElement.querySelector('.result-value');
+	if (!valueSpan) return false;
+	const valueText = valueSpan.textContent.trim();
+	const notCalculatedPlaceholders = ['N/A', '---', '-1', '-1.0'];
+	return !isResultInvalidNumericText(valueText) && !isResultZeroText(valueText) && !notCalculatedPlaceholders.includes(valueText);
+}
+
+// --- Highlighting Logic (REVISED) ---
+function updateInputHighlighting() {
+	if (!inputFields) return;
+	inputFields.forEach(targetInput => {
+		const targetId = targetInput.id;
+		let isProvided = isNonZeroNumeric(targetInput); // Green highlight requires non-zero
+		let isCalculable = false;
+
+		// Check calculability only if not provided (is zero or empty/invalid)
+		if (!isProvided) {
+			const requirements = calculationRequirementsMap[targetId];
+			if (requirements) {
+				// Check each possible condition set
+				isCalculable = requirements.some(condition => {
+					// Standard check: are all required fields present and non-zero?
+					let conditionMetStandard = checkConditionMet(condition);
+
+					// **** SPECIAL CHECK FOR SSS -> Height ONLY IF Equilateral ****
+					// If the target is a height AND the current condition is ['a', 'b', 'c']
+					if (conditionMetStandard &&
+						(targetId === 'hoeheA' || targetId === 'hoeheB' || targetId === 'hoeheC') &&
+						condition.length === 3 && condition.includes('a') && condition.includes('b') && condition.includes('c')) {
+						// Perform the additional equality check
+						conditionMetStandard = checkValuesAreEqual(['a', 'b', 'c']);
+					}
+					// **** END SPECIAL CHECK ****
+
+					return conditionMetStandard; // Return true if this condition (with potential extra checks) is met
+				});
+			}
+		}
+
+		// Apply classes based on combined checks
+		targetInput.classList.toggle('input-has-value', isProvided);
+		targetInput.classList.toggle('input-calculable', !isProvided && isCalculable);
+
+		// Ensure classes are removed correctly if state changes
+		if (!isProvided) targetInput.classList.remove('input-has-value');
+		if (isProvided || !isCalculable) targetInput.classList.remove('input-calculable');
+	});
+}
+
+
+function updateResultHighlighting() {
+	if (!resultsContainer) return;
+	const resultParagraphs = resultsContainer.querySelectorAll('p[id^="result-"]');
+
+	resultParagraphs.forEach(pElement => {
+		pElement.classList.remove('result-error', 'result-calculated', 'result-zero');
+		const valueSpan = pElement.querySelector('.result-value');
+		const valueText = valueSpan ? valueSpan.textContent.trim() : '';
+
+		if (isResultInvalidNumericText(valueText)) {
+			pElement.classList.add('result-error');
+		} else if (isResultZeroText(valueText)) {
+			pElement.classList.add('result-zero');
+		} else if (isResultCalculatedGreen(pElement)) {
+			pElement.classList.add('result-calculated');
+		}
+	});
+}
+
+// --- Copy Functionality ---
+function handleCopyClick(event) {
+	const button = event.target.closest('.copy-button');
+	if (!button) return;
+	const targetId = button.dataset.copyTargetId;
+	if (!targetId) return;
+	const resultElement = document.getElementById(targetId);
+	if (!resultElement) { console.error('Copy target element not found:', targetId); return; }
+	const valueSpan = resultElement.querySelector('.result-value');
+	if (!valueSpan) { console.error('Value span not found within:', targetId); return; }
+	const textToCopy = valueSpan.textContent.trim();
+	navigator.clipboard.writeText(textToCopy).then(() => {
+		button.classList.add('copied');
+		setTimeout(() => button.classList.remove('copied'), 1500);
+	}).catch(err => {
+		console.error('Fehler beim Kopieren: ', err);
+		alert('Kopieren fehlgeschlagen.');
+		button.classList.remove('copied');
+	});
+}
+
+// --- Event Listeners & Initial State ---
+document.addEventListener('DOMContentLoaded', () => {
+	// --- Initialize DOM references ---
+	inputFields = document.querySelectorAll('.Dreieck input[type="text"], .Dreieck input[type="number"]');
+	resultsContainer = document.querySelector('.DreieckResults');
+	copyFeedbackSpan = document.getElementById('copy-feedback');
+	dreieckForm = document.getElementById('dreieck-form');
+
+	// --- Add Input Event Listeners ---
+	if (inputFields.length > 0) {
+		inputFields.forEach(input => {
+			if (input.id !== 'decimalPlaces') {
+				input.addEventListener('input', updateInputHighlighting);
+				input.addEventListener('blur', updateInputHighlighting);
+			}
+		});
+	} else {
+		console.warn("No input fields found for highlighting listeners.");
+	}
+
+	// --- (Optional) Add Form Submit Listener ---
+	// if (dreieckForm) {
+	//     dreieckForm.addEventListener('submit', (event) => { /* Validation? */ });
+	// }
+
+	// --- Add Copy Button Listener ---
+	if (resultsContainer) {
+		resultsContainer.addEventListener('click', handleCopyClick);
+	} else {
+		if (document.querySelector('.results-details[open]')) {
+			console.warn("Results container (.DreieckResults) not found for copy listeners.");
+		}
+	}
+
+	// --- Initial State Updates ---
+	updateInputHighlighting();
+	updateResultHighlighting();
+
+}); // End DOMContentLoaded

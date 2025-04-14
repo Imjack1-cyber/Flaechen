@@ -1,259 +1,596 @@
-/* dreiecke.css */
+/* ==================================
+   dreiecke.css
+   (Based on kreise.css, adapted for centering)
+   ================================== */
 
-/* Grundlegende Stile und Reset */
+/* ==================================
+   Grundlegende Stile und Reset
+   ================================== */
 * {
 	box-sizing: border-box;
-	/* Bezieht Padding und Border in die Elementgröße ein */
 	margin: 0;
 	padding: 0;
 }
 
-body {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	/* Modernere Schriftart */
-	line-height: 1.6;
-	background-color: #f8f9fa; /* Heller Hintergrund */
-	color: #343a40; /* Dunklere Textfarbe */
-	padding: 20px;
+html {
+	font-size: 16px; /* Basis-Schriftgröße */
 }
 
-/* Header und Navigation */
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	line-height: 1.6;
+	background-color: #f8f9fa;
+	color: #343a40;
+	padding: 20px;
+	font-size: 1rem; /* Entspricht 16px bei Standardeinstellung */
+}
+
+/* ==================================
+   Header und Navigation
+   ================================== */
 header {
-	background: #007bff; /* Blauer Header */
+	background: #007bff;
 	color: #ffffff;
 	padding: 1rem 0;
 	margin-bottom: 30px;
-	text-align: center; /* Zentriert, falls Text hinzugefügt wird */
+	text-align: center;
 	border-radius: 5px;
 }
 
 header nav {
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	text-align: center; /* Zentriert die Links im Header */
-	padding: 10px 0; /* Innenabstand für den Nav-Bereich */
+	text-align: center;
+	padding: 10px 0;
 }
 
 header nav a.nav-link {
-	color: #ffffff; /* Weiße Schriftfarbe für Links */
-	text-decoration: none; /* Entfernt den Unterstrich */
-	margin: 0 15px; /* Abstand zwischen den Links */
-	padding: 5px 10px; /* Innenabstand für Klickfläche */
-	font-size: 1.1rem; /* Schriftgröße */
+	color: #ffffff;
+	text-decoration: none;
+	margin: 0 15px;
+	padding: 5px 10px;
+	font-size: 1.1rem; /* 1.1 * 16px = 17.6px */
 	font-weight: 500;
-	border-radius: 4px; /* Abgerundete Ecken */
+	border-radius: 4px;
 	transition: background-color 0.3s ease, color 0.3s ease;
-	/* Sanfter Übergang für Hover */
 }
 
 header nav a.nav-link:hover {
 	background-color: rgba(255, 255, 255, 0.2);
-	/* Leichter weißer Hintergrund bei Hover */
-	color: #f8f9fa; /* Etwas hellere Schrift bei Hover */
+	color: #f8f9fa;
 }
 
-/* Optional: Hebt den aktiven Link hervor */
 header nav a.nav-link.active {
 	background-color: rgba(255, 255, 255, 0.1);
-	/* Dezenter Hintergrund für den aktiven Link */
-	font-weight: 700; /* Fetter Text für aktiv */
+	font-weight: 700;
 }
 
-/* Überschriften */
+/* ==================================
+   Überschriften
+   ================================== */
 h1 {
 	text-align: center;
-	color: #0056b3; /* Dunkleres Blau */
+	color: #0056b3;
 	margin-bottom: 25px;
+	font-size: 2.2rem; /* 2.2 * 16px = 35.2px */
 }
 
-/* Verwenden Sie h2 für die Sektionstitel in dreiecke.jsp */
-h2 {
-	color: #007bff; /* Gleiches Blau wie Header */
+h3 { /* Used for section title in JSP */
+	color: #007bff;
 	margin-bottom: 15px;
-	border-bottom: 2px solid #dee2e6; /* Dezente Trennlinie */
+	border-bottom: 2px solid #dee2e6;
 	padding-bottom: 8px;
+	font-size: 1.4rem; /* 1.4 * 16px = 22.4px */
+	align: center;
 }
 
-/* Hauptcontainer für Eingabe und Ergebnisse */
-.content, .Results {
-	display: flex; /* Flexbox für nebeneinanderliegende Sections */
-	flex-wrap: wrap; /* Erlaubt Umbruch auf kleineren Bildschirmen */
-	gap: 25px; /* Abstand zwischen den Sections */
+/* ==================================
+   Hauptcontainer (Eingabe)
+   ================================== */
+.content {
+	display: flex;
+	flex-wrap: wrap;
+	/* Keep wrap just in case, though not needed for single item */
+	gap: 25px;
 	margin-bottom: 30px;
-	background-color: #ffffff; /* Weißer Hintergrund für den Container */
+	background-color: #ffffff;
 	padding: 25px;
 	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Weicher Schatten */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	justify-content: center; /* Center the single .Dreieck horizontally */
 }
 
-/* Styling der einzelnen Sections (Dreieck) */
-.Dreieck, .DreieckResults {
-	flex: 1 1 300px;
-	/* Flex-Grow, Flex-Shrink, Flex-Basis -> Responsive Breite */
-	background-color: #f8f9fa; /* Heller Hintergrund für Sections */
+/* Einzelne Eingabe-Sektion */
+.Dreieck {
+	flex: 1 1 300px; /* Allow growing, shrink, base 300px */
+	background-color: #f8f9fa;
 	padding: 20px;
-	border: 1px solid #dee2e6; /* Heller Rand */
+	border: 1px solid #dee2e6;
 	border-radius: 5px;
+	max-width: 700px; /* Limit maximum width when growing */
 }
 
-/* Formular-Elemente */
+/* ==================================
+   Formular-Elemente
+   ================================== */
 form {
-	margin-bottom: 20px; /* Abstand unter dem Formular */
+	margin-bottom: 20px;
 }
 
 label {
-	display: inline-block; /* Erlaubt Breiten- und Margin-Anpassung */
+	display: inline-block;
 	margin-bottom: 5px;
-	font-weight: 600; /* Etwas fettere Schrift für Labels */
-	width: 180px; /* Feste Breite für bessere Ausrichtung */
-	vertical-align: middle; /* Vertikale Ausrichtung */
+	font-weight: 600;
+	width: 180px; /* Feste Breite für Labels */
+	vertical-align: middle;
+	font-size: 0.95rem; /* 0.95 * 16px = 15.2px */
 }
 
 input[type="text"], input[type="number"] {
 	padding: 10px;
 	margin-bottom: 12px;
-	border: 1px solid #ced4da; /* Standard-Bootstrap-Randfarbe */
+	border: 1px solid #ced4da;
 	border-radius: 4px;
-	width: calc(100% - 190px);
-	/* Berechnete Breite basierend auf Label + etwas Platz */
-	max-width: 180px; /* Maximale Breite verhindern */
-	transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-	/* Sanfter Fokus-Effekt */
+	width: calc(100% - 190px); /* Berechnete Breite neben Label */
+	max-width: 180px; /* Maximale Breite for input field itself */
+	transition: background-color 0.3s ease, border-color 0.3s ease,
+		box-shadow 0.3s ease;
+	font-size: 0.95rem; /* Konsistente Schriftgröße */
+	vertical-align: middle; /* Bessere Ausrichtung mit Label */
 }
 
 input[type="text"]:focus, input[type="number"]:focus {
-	border-color: #80bdff; /* Blauer Rand bei Fokus */
+	border-color: #80bdff;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-	/* Leichter blauer Schein */
+}
+
+/* Style für INPUTS, die einen Wert haben */
+.input-has-value {
+	background-color: #e0ffe0 !important; /* Hellgrün */
+	border-color: #28a745 !important; /* Grüner Rand */
+}
+
+/* Style für INPUTS, die potenziell berechnet werden können */
+.input-calculable {
+	background-color: #ffffe0 !important; /* Hellgelb */
+	border-color: #ffc107 !important; /* Gelber Rand */
+	box-shadow: 0 0 0 0.1rem rgba(255, 193, 7, 0.25) !important;
+	/* Gelber Schein */
 }
 
 /* Spezial-Styling für Dezimalstellen-Eingabe */
 label[for="decimalPlaces"] {
-	width: auto; /* Keine feste Breite hier */
+	width: auto; /* Keine feste Breite */
 	margin-right: 10px;
 }
 
 #decimalPlaces {
-	width: 70px; /* Kleinere Breite */
+	width: 70px;
 	max-width: 70px;
-	display: inline-block; /* Damit es neben dem Label bleibt */
-	margin-right: 20px; /* Abstand zum Button */
+	display: inline-block;
+	margin-right: 20px;
 }
 
-/* Buttons (Submit und Footer-Links) */
-button[type="submit"], /* Target the button element */ .button {
-	/* .button Klasse für die Footer-Links und ggf. den Submit-Button */
+/* Buttons (Submit) */
+button.button, button[type="submit"] {
 	display: inline-block;
 	padding: 10px 25px;
-	font-size: 1rem;
+	font-size: 1rem; /* 16px */
 	font-weight: 600;
 	color: #ffffff;
-	background-color: #28a745; /* Grüner Button */
+	background-color: #28a745;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	text-decoration: none; /* Entfernt Unterstrich bei <a>-Tags */
+	text-decoration: none;
 	transition: background-color 0.3s ease, transform 0.1s ease;
-	/* Übergangseffekt */
-	margin-right: 10px; /* Abstand zwischen Buttons */
-	margin-top: 10px; /* Abstand nach oben */
+	margin-right: 10px;
+	margin-top: 10px;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	vertical-align: middle; /* Ausrichten mit Dezimalstellen-Eingabe */
 }
 
-button[type="submit"]:hover, .button:hover {
-	background-color: #218838; /* Dunkleres Grün bei Hover */
-	transform: translateY(-1px); /* Leichter Anhebe-Effekt */
+button.button:hover, button[type="submit"]:hover {
+	background-color: #218838;
+	transform: translateY(-1px);
 }
 
-button[type="submit"]:active, .button:active {
-	transform: translateY(0px); /* Zurücksetzen bei Klick */
+button.button:active, button[type="submit"]:active {
+	transform: translateY(0px);
 }
 
-/* Ergebnisse-Paragraphen */
+/* ==================================
+   Ergebnisse-Sektion
+   ================================== */
+
+/* Container für die Ergebnisse-Divs */
+.Results {
+	display: flex;
+	flex-wrap: wrap; /* Keep wrap just in case */
+	gap: 25px;
+	margin-bottom: 30px;
+	background-color: #ffffff;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	justify-content: center;
+	/* Center the single .DreieckResults horizontally */
+}
+
+/* Einzelne Ergebnis-Box */
+.DreieckResults {
+	flex: 1 1 300px; /* Allow growing, shrink, base 300px */
+	background-color: #f8f9fa;
+	padding: 20px;
+	border: 1px solid #dee2e6;
+	border-radius: 5px;
+	max-width: 700px; /* Limit maximum width when growing */
+}
+
+/* Collapsible Results Area */
+details.results-details>summary {
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 2rem; /* 2 * 16px = 32px, etwas kleiner als H1 */
+	color: #0056b3;
+	margin-bottom: 25px;
+	padding: 10px 10px 10px 30px;
+	background-color: transparent;
+	border-radius: 0;
+	list-style: none;
+	position: relative;
+	outline: none;
+	display: block;
+	text-align: center;
+	border-bottom: 2px solid transparent;
+	transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+details.results-details>summary::-webkit-details-marker {
+	display: none;
+}
+
+details.results-details>summary::before {
+	content: '►';
+	display: inline-block;
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 0.6em; /* Relativ zur Summary-Schriftgröße */
+	transition: transform 0.2s ease-in-out;
+	color: #343a40;
+	font-weight: normal;
+}
+
+details.results-details[open]>summary::before {
+	transform: translateY(-50%) rotate(90deg);
+}
+
+details.results-details>summary:hover {
+	color: #007bff;
+	background-color: #e9ecef; /* Leichter Hintergrund beim Hover */
+}
+
+/* Style for each result paragraph for alignment */
 .Results p {
-	margin-bottom: 10px;
-	padding-bottom: 8px;
-	border-bottom: 1px dashed #e0e0e0; /* Gestrichelte Trennlinie */
-	font-size: 0.95rem;
+	display: flex;
+	align-items: baseline; /* Align text baselines */
+	margin-bottom: 8px;
+	padding: 6px 5px;
+	border-bottom: 1px dashed #e0e0e0;
+	font-size: 0.95rem; /* 15.2px */
+	border-left: 3px solid transparent;
+	transition: background-color 0.3s ease, border-left-color 0.3s ease;
+	border-radius: 3px;
+	flex-wrap: nowrap; /* Prevent wrapping by default */
 }
 
 .Results p:last-child {
-	border-bottom: none; /* Keine Linie beim letzten Element */
+	border-bottom: none;
 }
 
-/* Footer */
+/* Style for the label part of the result */
+.result-label {
+	color: #495057;
+	flex-shrink: 0; /* Prevent label from shrinking */
+	min-width: 100px; /* Give label some minimum space */
+	margin-right: 5px; /* Add space between label and the rest */
+}
+
+/* Container for the optional info icon (keep for potential future use/consistency) */
+.result-icon-container {
+	flex-shrink: 0; /* Don't shrink */
+	width: 25px; /* Fixed width for the icon column */
+	text-align: center; /* Center the icon within this space */
+	margin-left: auto; /* PUSHES icon, value, button to the right */
+}
+
+/* Info Icon Style (keep for potential future use/consistency) */
+.info-icon {
+	display: inline-block;
+	font-size: 0.9em; /* Relativ zur P-Schriftgröße */
+	color: #ffc107;
+	cursor: help;
+	font-weight: bold;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+/* Style for the value part - Adjusted */
+.result-value {
+	font-weight: 600;
+	text-align: right;
+	margin-left: 8px;
+	/* Space between (optional) icon container and value */
+	display: inline-flex;
+	align-items: baseline;
+	justify-content: flex-end;
+	flex-shrink: 0; /* Don't let value shrink undesirably */
+	min-width: 50px; /* Ensure value has some space */
+	word-break: break-all; /* Break long numbers if necessary */
+}
+
+/* Highlight class for normally calculated result PARAGRAPHS */
+.result-calculated {
+	background-color: #e6f7e6;
+	border-left-color: #28a745 !important;
+}
+
+/* Highlight class for notice PARAGRAPHS (keep for consistency, not used in dreiecke) */
+.result-notice-equal {
+	background-color: #fff9e6;
+	border-left-color: #ffc107 !important;
+	color: #856404;
+}
+
+.result-notice-equal .result-label {
+	color: #a48110;
+}
+
+.result-notice-equal .result-value {
+	color: #856404;
+	font-weight: normal;
+}
+
+.result-notice-equal .info-icon {
+	color: #c89a09;
+}
+
+/* --- Copy Button Styling --- */
+.copy-button {
+	margin-left: 12px; /* Space between value and button */
+	padding: 3px 5px;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	vertical-align: middle;
+	line-height: 1;
+	border-radius: 4px;
+	transition: background-color 0.2s ease-in-out;
+	color: #555;
+	flex-shrink: 0;
+	position: relative;
+	overflow: hidden;
+}
+
+.copy-button:hover {
+	background-color: rgba(0, 0, 0, 0.07);
+	color: #222;
+}
+
+.copy-button:active {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Base SVG styles */
+.copy-button svg {
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	stroke: currentColor; /* Inherit color from button */
+}
+
+/* --- Icon Visibility Control --- */
+.copy-button svg.copy-icon {
+	display: inline-block;
+}
+
+.copy-button svg.copied-icon {
+	display: none;
+}
+
+.copy-button.copied svg.copy-icon {
+	display: none;
+}
+
+.copy-button.copied svg.copied-icon {
+	display: inline-block;
+	stroke: #28a745; /* Green checkmark color */
+}
+
+/* ==================================
+   Footer
+   ================================== */
 footer {
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	text-align: center;
 	margin-top: 40px;
 	padding: 25px;
-	background-color: #e9ecef; /* Heller Footer-Hintergrund */
-	border-top: 1px solid #dee2e6; /* Heller Rand oben */
+	background-color: #e9ecef;
+	border-top: 1px solid #dee2e6;
 	border-radius: 5px;
 }
 
-footer .button {
-	background-color: #6c757d; /* Graue Footer-Buttons */
-	margin-bottom: 5px; /* Abstand, falls sie umbrechen */
+footer a.button { /* Style footer links like buttons */
+	display: inline-block;
+	padding: 10px 25px;
+	font-size: 1rem; /* 16px */
+	font-weight: 600;
+	color: #ffffff;
+	background-color: #6c757d;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.3s ease, transform 0.1s ease;
+	margin-right: 10px;
+	margin-top: 10px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	margin-bottom: 5px;
 }
 
-footer .button:hover {
-	background-color: #5a6268; /* Dunkleres Grau bei Hover */
+footer a.button:hover {
+	background-color: #5a6268;
+	transform: translateY(-1px);
 }
 
-/* Responsive Anpassungen */
-@media ( max-width : 992px) {
+footer a.button:active {
+	transform: translateY(0px);
+}
+
+/* ==================================
+   Responsive Anpassungen
+   ================================== */
+@media ( max-width : 992px) { /* Tablets */
 	label {
-		width: 150px; /* Schmalere Labels auf Tablets */
+		width: 150px; /* Schmalere Labels */
 	}
 	input[type="text"], input[type="number"] {
-		width: calc(100% - 160px);
+		width: calc(100% - 160px); /* Angepasste Breite */
+	}
+	.Results p {
+		font-size: 0.9rem; /* Slightly smaller font in results */
+	}
+	.Dreieck, .DreieckResults {
+		max-width: 600px; /* Adjust max width for tablets */
 	}
 }
 
-@media ( max-width : 768px) {
+@media ( max-width : 768px) { /* Small Tablets / Large Phones */
+	html {
+		font-size: 15px;
+	} /* Slightly reduce base font size */
 	.content, .Results {
-		flex-direction: column;
-		/* Sections untereinander auf kleineren Bildschirmen */
+		flex-direction: column; /* Sections untereinander */
 		padding: 15px;
+		gap: 15px;
+		align-items: center; /* Center items horizontally in column mode */
+	}
+	.Dreieck, .DreieckResults {
+		padding: 15px;
+		width: 100%; /* Use full width */
+		max-width: 600px; /* Still respect max-width */
+		flex-basis: auto; /* Reset flex basis */
 	}
 	label {
-		width: auto; /* Automatische Breite für Labels */
-		display: block; /* Labels über die Eingabefelder */
+		width: auto; /* Automatische Breite */
+		display: block; /* Labels über Eingabefelder */
 		margin-bottom: 3px;
 	}
 	input[type="text"], input[type="number"] {
-		width: 100%; /* Volle Breite für Eingabefelder */
-		max-width: none; /* Keine maximale Breite mehr nötig */
-		margin-bottom: 15px; /* Mehr Abstand unten */
+		width: 100%; /* Volle Breite */
+		max-width: none;
+		margin-bottom: 15px;
 	}
 	#decimalPlaces {
-		width: 80px; /* Breite anpassen */
+		width: 80px;
 		max-width: 80px;
 	}
-	button[type="submit"] { /* Adjust submit button */
-		width: 100%; /* Submit-Button über volle Breite */
+	button.button, button[type="submit"] { /* Submit button */
+		width: 100%;
 		margin-top: 15px;
+		margin-right: 0;
+		padding: 12px 20px; /* Larger tap target */
 	}
-	footer .button {
-		display: block; /* Footer-Buttons untereinander */
-		margin: 10px auto; /* Zentrieren mit Abstand */
+	footer a.button { /* Footer buttons */
+		display: block;
+		margin: 10px auto;
 		width: 80%;
 		max-width: 300px;
+		padding: 12px 20px; /* Larger tap target */
+	}
+	h1 {
+		font-size: 2rem;
+	}
+	h3 {
+		font-size: 1.3rem;
+	} /* Adjusted H3 */
+	details.results-details>summary {
+		font-size: 1.8rem;
+	}
+	.Results p {
+		flex-wrap: wrap; /* Allow wrapping within result line */
+		align-items: center;
+	}
+	.result-label {
+		width: 100%;
+		margin-bottom: 4px;
+		min-width: 0;
+		text-align: left; /* Align label left when wrapped */
+	}
+	.result-icon-container {
+		display: none; /* Hide icon container when wrapping occurs */
+	}
+	.result-value {
+		order: 3;
+		margin-left: 0;
+		min-width: 50px;
+		text-align: left; /* Align value left */
+		flex-grow: 1; /* Allow value to take space */
+		margin-right: 5px;
+		word-break: break-all;
+	}
+	.copy-button {
+		order: 4;
+		margin-left: auto; /* Push button to right */
 	}
 }
 
-@media ( max-width : 480px) {
+@media ( max-width : 480px) { /* Small Phones */
+	html {
+		font-size: 14px;
+	} /* Further reduce base font size */
 	body {
 		padding: 10px;
 	}
-	h1 {
-		font-size: 1.8em;
+	h1, details.results-details>summary {
+		font-size: 1.6rem;
 	}
+	h3 {
+		font-size: 1.2rem;
+	} /* Adjusted H3 */
 	.content, .Results {
 		padding: 10px;
 	}
 	.Dreieck, .DreieckResults {
-		padding: 15px;
+		padding: 12px;
+		max-width: 100%; /* Allow full width on small screens */
+	}
+	details.results-details>summary::before {
+		left: 5px;
+		font-size: 0.5em;
+	}
+	details.results-details>summary {
+		padding-left: 20px;
+	}
+	input[type="text"], input[type="number"] {
+		padding: 8px; /* Slightly smaller padding */
+	}
+	label[for="decimalPlaces"], #decimalPlaces, button.button, button[type="submit"]
+		{
+		font-size: 0.95rem; /* Adjust font size for these controls */
+	}
+	button.button, button[type="submit"], footer a.button {
+		padding: 10px 15px;
+	}
+	.Results p {
+		font-size: 0.9rem;
+	}
+	.result-label {
+		font-size: 0.9rem; /* Match parent P */
+	}
+	.result-value {
+		font-size: 0.9rem;
 	}
 }

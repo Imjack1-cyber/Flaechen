@@ -1,7 +1,10 @@
 package de.m4automotive.controller;
 
 import java.io.IOException; // Importing IOException to handle input/output errors.
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException; // Importing ServletException for handling servlet-related errors.
@@ -19,6 +22,8 @@ import de.m4automotive.model.Kreis;
 public class KreisServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = LogManager.getLogger(KreisServlet.class);
+
+	private int decimalPlaces = 0;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LOG.debug("KreisServlet doGet() called");
@@ -88,7 +93,7 @@ public class KreisServlet extends HttpServlet {
 
 		Kreis kreis = new Kreis();
 
-		int decimalPlaces = Integer.parseInt(request.getParameter("decimalPlaces"));
+		decimalPlaces = Integer.parseInt(request.getParameter("decimalPlaces"));
 		LOG.debug("DecimalPlaces: " + decimalPlaces);
 		double radius1 = Double.parseDouble(request.getParameter("radius1"));
 		LOG.debug("Radius1: " + radius1);
@@ -224,41 +229,41 @@ public class KreisServlet extends HttpServlet {
 
 		if (radius2 == 0) {
 			if ((durchmesser2 / 2.0) != 0) {
-				radius1 = durchmesser2 / 2.0;
+				radius2 = durchmesser2 / 2.0;
 			} else if (Math.sqrt(flaecheninhalt2 / Math.PI) != 0) {
-				radius1 = Math.sqrt(flaecheninhalt2 / Math.PI);
+				radius2 = Math.sqrt(flaecheninhalt2 / Math.PI);
 			} else if (umfang2 / (2.0 * Math.PI) != 0) {
-				radius1 = umfang2 / (2.0 * Math.PI);
+				radius2 = umfang2 / (2.0 * Math.PI);
 			} else if ((kreisbogen2 * 360.0) / (alpha * 2.0 * Math.PI) != 0) {
-				radius1 = (kreisbogen2 * 360.0) / (alpha * 2.0 * Math.PI);
+				radius2 = (kreisbogen2 * 360.0) / (alpha * 2.0 * Math.PI);
 			} else if (Math.sqrt((kreisauschnitt2 * 360.0) / (alpha * Math.PI)) != 0) {
-				radius1 = Math.sqrt((kreisauschnitt2 * 360.0) / (alpha * Math.PI));
+				radius2 = Math.sqrt((kreisauschnitt2 * 360.0) / (alpha * Math.PI));
 			} else if ((2.0 * kreisauschnitt2 / kreisbogen2) != 0) {
-				radius1 = 2.0 * kreisauschnitt2 / kreisbogen2;
+				radius2 = 2.0 * kreisauschnitt2 / kreisbogen2;
 			} else if (Math.sqrt(oberflaecheKugel2 / (4.0 * Math.PI)) != 0) {
-				radius1 = Math.sqrt(oberflaecheKugel2 / (4.0 * Math.PI));
+				radius2 = Math.sqrt(oberflaecheKugel2 / (4.0 * Math.PI));
 			} else if (Math.cbrt(3.0 * volumenKugel2 / (4.0 * Math.PI)) != 0) {
-				radius1 = Math.cbrt(3.0 * volumenKugel2 / (4.0 * Math.PI));
+				radius2 = Math.cbrt(3.0 * volumenKugel2 / (4.0 * Math.PI));
 			} else if (Math.sqrt(grundflaecheZylinder2 / Math.PI) != 0) {
-				radius1 = Math.sqrt(grundflaecheZylinder2 / Math.PI);
+				radius2 = Math.sqrt(grundflaecheZylinder2 / Math.PI);
 			} else if (Math.sqrt(grundflaecheKegel2 / Math.PI) != 0) {
-				radius1 = Math.sqrt(grundflaecheKegel2 / Math.PI);
+				radius2 = Math.sqrt(grundflaecheKegel2 / Math.PI);
 			} else if (mantelflaecheZylinder2 / (2.0 * Math.PI * hoehe2) != 0) {
-				radius1 = mantelflaecheZylinder2 / (2.0 * Math.PI * hoehe2);
+				radius2 = mantelflaecheZylinder2 / (2.0 * Math.PI * hoehe2);
 			} else if (Math.sqrt(volumenZylinder2 / (Math.PI * hoehe2)) != 0) {
-				radius1 = Math.sqrt(volumenZylinder2 / (Math.PI * hoehe2));
+				radius2 = Math.sqrt(volumenZylinder2 / (Math.PI * hoehe2));
 			} else if (mantelflaecheKegel2 / (Math.PI * seitenhoehe2) != 0) {
-				radius1 = mantelflaecheKegel2 / (Math.PI * seitenhoehe2);
+				radius2 = mantelflaecheKegel2 / (Math.PI * seitenhoehe2);
 			} else if (Math.sqrt(Math.pow(seitenhoehe2, 2) - Math.pow(hoehe2, 2.0)) != 0) {
-				radius1 = Math.sqrt(Math.pow(seitenhoehe2, 2) - Math.pow(hoehe2, 2.0));
+				radius2 = Math.sqrt(Math.pow(seitenhoehe2, 2) - Math.pow(hoehe2, 2.0));
 			} else if (Math.sqrt(3.0 * volumenKegel2 / (Math.PI * hoehe2)) != 0) {
-				radius1 = Math.sqrt(3.0 * volumenKegel2 / (Math.PI * hoehe2));
+				radius2 = Math.sqrt(3.0 * volumenKegel2 / (Math.PI * hoehe2));
 			} else if ((kreisbogen2 * 180.0) / (alpha * Math.PI) != 0) {
-				radius1 = (kreisbogen2 * 180.0) / (alpha * Math.PI);
+				radius2 = (kreisbogen2 * 180.0) / (alpha * Math.PI);
 			} else if (Math.sqrt((kreisauschnitt2 * 360.0) / (alpha * Math.PI)) != 0) {
-				radius1 = Math.sqrt((kreisauschnitt2 * 360.0) / (alpha * Math.PI));
+				radius2 = Math.sqrt((kreisauschnitt2 * 360.0) / (alpha * Math.PI));
 			} else {
-				radius1 = Double.NaN;
+				radius2 = Double.NaN;
 			}
 		}
 
@@ -942,159 +947,172 @@ public class KreisServlet extends HttpServlet {
 		if (kreisausschnitteGleich)
 			LOG.debug("Kreisausschnitte sind gleich.");
 
-		kreis.setRadius1(Math.round(radius1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("radius1: " + radius1);
-		kreis.setRadius2(Math.round(radius2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("radius2: " + radius2);
-		kreis.setDurchmesser1(Math.round(durchmesser1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("durchmesser1: " + durchmesser1);
-		kreis.setDurchmesser2(Math.round(durchmesser2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("durchmesser2: " + durchmesser2);
-		kreis.setUmfang1(Math.round(umfang1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("umfang1: " + umfang1);
-		kreis.setUmfang2(Math.round(umfang2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("umfang2: " + umfang2);
-		kreis.setFlaecheninhalt1(
-				Math.round(flaecheninhalt1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("flaecheninhalt1: " + flaecheninhalt1);
-		kreis.setFlaecheninhalt2(
-				Math.round(flaecheninhalt2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("flaecheninhalt2: " + flaecheninhalt2);
-		kreis.setFlaecheninhaltGesamt(
-				Math.round(flaecheninhaltGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("flaecheninhaltGesamt: " + flaecheninhaltGesamt);
+		kreis.setRadius1(radius1);
+		kreis.setRadius2(radius2);
+		kreis.setDurchmesser1(durchmesser1);
+		kreis.setDurchmesser2(durchmesser2);
+		kreis.setUmfang1(umfang1);
+		kreis.setUmfang2(umfang2);
+		kreis.setFlaecheninhalt1(flaecheninhalt1);
+		kreis.setFlaecheninhalt2(flaecheninhalt2);
+		kreis.setFlaecheninhaltGesamt(flaecheninhaltGesamt);
 
 		// Kreisteile
-
-		kreis.setKreisbogen1(Math.round(kreisbogen1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("kreisbogen1: " + kreisbogen1);
-		kreis.setKreisbogen2(Math.round(kreisbogen2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("kreisbogen2: " + kreisbogen2);
-		kreis.setKreisausschnitt1(
-				Math.round(kreisauschnitt1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("kreisausschnitt1: " + kreisauschnitt1);
-		kreis.setKreisausschnitt2(
-				Math.round(kreisauschnitt2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("kreisauschnitt2: " + kreisauschnitt2);
-		kreis.setKreisausschnittGesamt(
-				Math.round(kreisausschnittGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("kreisauschnittGesamt: " + kreisausschnittGesamt);
-		kreis.setAlpha(Math.round(alpha * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("alpha: " + alpha);
+		kreis.setKreisbogen1(kreisbogen1);
+		kreis.setKreisbogen2(kreisbogen2);
+		kreis.setKreisausschnitt1(kreisauschnitt1);
+		kreis.setKreisausschnitt2(kreisauschnitt2);
+		kreis.setKreisausschnittGesamt(kreisausschnittGesamt);
+		kreis.setAlpha(alpha);
 
 		// Zylinder
-
-		kreis.setHoehe1(Math.round(hoehe1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("hoehe1: " + hoehe1);
-		kreis.setHoehe2(Math.round(hoehe2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("hoehe2: " + hoehe2);
-		kreis.setGrundflaecheZylinder1(
-				Math.round(grundflaecheZylinder1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("grundflaecheZylinder1: " + grundflaecheZylinder1);
-		kreis.setGrundflaecheZylinder2(
-				Math.round(grundflaecheZylinder2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("grundflaecheZylinder2: " + grundflaecheZylinder2);
-		kreis.setGrundflaecheZylinderGesamt(
-				Math.round(grundflaecheZylinderGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("grundflaecheZylinderGesamt: " + grundflaecheZylinderGesamt);
-		kreis.setMantelflaecheZylinder1(
-				Math.round(mantelflaecheZylinder1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("mantelflaecheZylinder1: " + mantelflaecheZylinder1);
-		kreis.setMantelflaecheZylinder2(
-				Math.round(mantelflaecheZylinder2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("mantelflaecheZylinder2: " + mantelflaecheZylinder2);
-		kreis.setMantelflaecheZylinderGesamt(
-				Math.round(mantelflaecheZylinderGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("mantelflaecheZylinderGesamt: " + mantelflaecheZylinderGesamt);
-		kreis.setOberflaecheZylinder1(
-				Math.round(oberflaecheZylinder1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheZylinder1: " + oberflaecheZylinder1);
-		kreis.setOberflaecheZylinder2(
-				Math.round(oberflaecheZylinder2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheZylinder2: " + oberflaecheZylinder2);
-		kreis.setOberflaecheZylinderGesamt(
-				Math.round(oberflaecheZylinderGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheZylinderGesamt: " + oberflaecheZylinderGesamt);
-		kreis.setVolumenZylinder1(
-				Math.round(volumenZylinder1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenZylinder1: " + volumenZylinder1);
-		kreis.setVolumenZylinder2(
-				Math.round(volumenZylinder2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenZylinder2: " + volumenZylinder2);
-		kreis.setVolumenZylinderGesamt(
-				Math.round(volumenZylinderGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenZylinderGesamt: " + volumenZylinderGesamt);
+		kreis.setHoehe1(hoehe1);
+		kreis.setHoehe2(hoehe2);
+		kreis.setGrundflaecheZylinder1(grundflaecheZylinder1);
+		kreis.setGrundflaecheZylinder2(grundflaecheZylinder2);
+		kreis.setGrundflaecheZylinderGesamt(grundflaecheZylinderGesamt);
+		kreis.setMantelflaecheZylinder1(mantelflaecheZylinder1);
+		kreis.setMantelflaecheZylinder2(mantelflaecheZylinder2);
+		kreis.setMantelflaecheZylinderGesamt(mantelflaecheZylinderGesamt);
+		kreis.setOberflaecheZylinder1(oberflaecheZylinder1);
+		kreis.setOberflaecheZylinder2(oberflaecheZylinder2);
+		kreis.setOberflaecheZylinderGesamt(oberflaecheZylinderGesamt);
+		kreis.setVolumenZylinder1(volumenZylinder1);
+		kreis.setVolumenZylinder2(volumenZylinder2);
+		kreis.setVolumenZylinderGesamt(volumenZylinderGesamt);
 
 		// Kegel
-
-		kreis.setSeitenhoehe1(Math.round(seitenhoehe1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("seitenhoehe1: " + seitenhoehe1);
-		kreis.setSeitenhoehe2(Math.round(seitenhoehe2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("seitenhoehe2: " + seitenhoehe2);
-		kreis.setGrundflaecheKegel1(
-				Math.round(grundflaecheKegel1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("grundflaecheKegel1: " + grundflaecheKegel1);
-		kreis.setGrundflaecheKegel2(
-				Math.round(grundflaecheKegel2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("grundflaecheKegel2: " + grundflaecheKegel2);
-		kreis.setGrundflaecheKegelGesamt(
-				Math.round(grundflaecheKegelGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("grundflaecheKegelGesamt: " + grundflaecheKegelGesamt);
-		kreis.setMantelflaecheKegel1(
-				Math.round(mantelflaecheKegel1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("mantelflaecheKegel1: " + mantelflaecheKegel1);
-		kreis.setMantelflaecheKegel2(
-				Math.round(mantelflaecheKegel2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("mantelflaecheKegel2: " + mantelflaecheKegel2);
-		kreis.setMantelflaecheKegelGesamt(
-				Math.round(mantelflaecheKegelGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("mantelflaecheKegelGesamt: " + mantelflaecheKegelGesamt);
-		kreis.setOberflaecheKegel1(
-				Math.round(oberflaecheKegel1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheKegel1: " + oberflaecheKegel1);
-		kreis.setOberflaecheKegel2(
-				Math.round(oberflaecheKegel2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheKegel2: " + oberflaecheKegel2);
-		kreis.setOberflaecheKegelGesamt(
-				Math.round(oberflaecheKegelGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheKegelGesamt: " + oberflaecheKegelGesamt);
-		kreis.setVolumenKegel1(Math.round(volumenKegel1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenKegel1: " + volumenKegel1);
-		kreis.setVolumenKegel2(Math.round(volumenKegel2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenKegel2: " + volumenKegel2);
-		kreis.setVolumenKegelGesamt(
-				Math.round(volumenKegelGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenKegelGesamt: " + volumenKegelGesamt);
+		kreis.setSeitenhoehe1(seitenhoehe1);
+		kreis.setSeitenhoehe2(seitenhoehe2);
+		kreis.setGrundflaecheKegel1(grundflaecheKegel1);
+		kreis.setGrundflaecheKegel2(grundflaecheKegel2);
+		kreis.setGrundflaecheKegelGesamt(grundflaecheKegelGesamt);
+		kreis.setMantelflaecheKegel1(mantelflaecheKegel1);
+		kreis.setMantelflaecheKegel2(mantelflaecheKegel2);
+		kreis.setMantelflaecheKegelGesamt(mantelflaecheKegelGesamt);
+		kreis.setOberflaecheKegel1(oberflaecheKegel1);
+		kreis.setOberflaecheKegel2(oberflaecheKegel2);
+		kreis.setOberflaecheKegelGesamt(oberflaecheKegelGesamt);
+		kreis.setVolumenKegel1(volumenKegel1);
+		kreis.setVolumenKegel2(volumenKegel2);
+		kreis.setVolumenKegelGesamt(volumenKegelGesamt);
 
 		// Kugel
+		kreis.setOberflaecheKugel1(oberflaecheKugel1);
+		kreis.setOberflaecheKugel2(oberflaecheKugel2);
+		kreis.setOberflaecheKugelGesamt(oberflaecheKugelGesamt);
+		kreis.setVolumenKugel1(volumenKugel1);
+		kreis.setVolumenKugel2(volumenKugel2);
+		kreis.setVolumenKugelGesamt(volumenKugelGesamt);
 
-		kreis.setOberflaecheKugel1(
-				Math.round(oberflaecheKugel1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheKugel1: " + oberflaecheKugel1);
-		kreis.setOberflaecheKugel2(
-				Math.round(oberflaecheKugel2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheKugel2: " + oberflaecheKugel2);
-		kreis.setOberflaecheKugelGesamt(
-				Math.round(oberflaecheKugelGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("oberflaecheKugelGesamt: " + oberflaecheKugelGesamt);
-		kreis.setVolumenKugel1(Math.round(volumenKugel1 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenKugel1: " + volumenKugel1);
-		kreis.setVolumenKugel2(Math.round(volumenKugel2 * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenKugel2: " + volumenKugel2);
-		kreis.setVolumenKugelGesamt(
-				Math.round(volumenKugelGesamt * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces));
-		LOG.debug("volumenKugelGesamt: " + volumenKugelGesamt);
-
+		// Set boolean flags
 		kreis.setGrundflaechenGleich(grundflaechenGleich);
 		kreis.setZylinderVoluminaGleich(zylinderVoluminaGleich);
-		kreis.setZylinderGrundflaechenGleich(zylinderGrundflaechenGleich); // Set this too
+		kreis.setZylinderGrundflaechenGleich(zylinderGrundflaechenGleich);
 		kreis.setKegelVoluminaGleich(kegelVoluminaGleich);
-		kreis.setKegelGrundflaechenGleich(kegelGrundflaechenGleich); // Set this too
+		kreis.setKegelGrundflaechenGleich(kegelGrundflaechenGleich);
 		kreis.setKugelVoluminaGleich(kugelVoluminaGleich);
 		kreis.setKreisausschnitteGleich(kreisausschnitteGleich);
 
+		LOG.debug("radius1: " + radius1);
+		LOG.debug("radius1: " + radius1);
+		LOG.debug("durchmesser1: " + durchmesser1);
+		LOG.debug("durchmesser2: " + durchmesser2);
+		LOG.debug("umfang1: " + umfang1);
+		LOG.debug("umfang2: " + umfang2);
+		LOG.debug("flaecheninhalt1: " + flaecheninhalt1);
+		LOG.debug("flaecheninhalt2: " + flaecheninhalt2);
+		LOG.debug("kreisbogen1: " + kreisbogen1);
+		LOG.debug("kreisbogen2: " + kreisbogen2);
+		LOG.debug("kreisauschnitt1: " + kreisauschnitt1);
+		LOG.debug("kreisauschnitt2: " + kreisauschnitt2);
+		LOG.debug("alpha: " + alpha);
+		LOG.debug("hoehe1: " + hoehe1);
+		LOG.debug("hoehe2: " + hoehe2);
+		LOG.debug("grundflaecheZylinder1: " + grundflaecheZylinder1);
+		LOG.debug("grundflaecheZylinder2: " + grundflaecheZylinder2);
+		LOG.debug("mantelflaecheZylinder1: " + mantelflaecheZylinder1);
+		LOG.debug("mantelflaecheZylinder2: " + mantelflaecheZylinder2);
+		LOG.debug("oberflaecheZylinder1: " + oberflaecheZylinder1);
+		LOG.debug("oberflaecheZylinder2: " + oberflaecheZylinder2);
+		LOG.debug("volumenZylinder1: " + volumenZylinder1);
+		LOG.debug("volumenZylinder2: " + volumenZylinder2);
+		LOG.debug("seitenhoehe1: " + seitenhoehe1);
+		LOG.debug("seitenhoehe2: " + seitenhoehe2);
+		LOG.debug("grundflaecheKegel1: " + grundflaecheKegel1);
+		LOG.debug("grundflaecheKegel2: " + grundflaecheKegel2);
+		LOG.debug("mantelflaecheKegel1: " + mantelflaecheKegel1);
+		LOG.debug("mantelflaecheKegel2: " + mantelflaecheKegel2);
+		LOG.debug("oberflaecheKegel1: " + oberflaecheKegel1);
+		LOG.debug("oberflaecheKegel2: " + oberflaecheKegel2);
+		LOG.debug("volumenKegel1: " + volumenKegel1);
+		LOG.debug("volumenKegel2: " + volumenKegel2);
+		LOG.debug("oberflaecheKugel1: " + oberflaecheKugel1);
+		LOG.debug("oberflaecheKugel2: " + oberflaecheKugel2);
+		LOG.debug("volumenKugel1: " + volumenKugel1);
+		LOG.debug("volumenKugel2: " + volumenKugel2);
+
+		// Set the formatter IN the bean
+		LOG.debug("Setting DecimalFormat into Kreis bean...");
+		kreis.setDecimalFormat(getDecimalFormat()); // <<< Set formatter HERE
+
+		// Forward to JSP
+		LOG.debug("Forwarding request to kreise.jsp...");
 		request.setAttribute("kreis", kreis);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/kreise.jsp");
 		dispatcher.forward(request, response);
+
+		LOG.debug("berechneKreise() method finished.");
+	}
+
+	public DecimalFormat getDecimalFormat() {
+		LOG.debug("getDecimalFormat called for decimalPlaces: {}", decimalPlaces); // Use parameterized logging
+
+		String pattern;
+		switch (decimalPlaces) {
+		case 0:
+			pattern = "0";
+			break; // Use "0" for integer display
+		case 1:
+			pattern = "0.0";
+			break;
+		case 2:
+			pattern = "0.00";
+			break;
+		case 3:
+			pattern = "0.000";
+			break;
+		case 4:
+			pattern = "0.0000";
+			break;
+		case 5:
+			pattern = "0.00000";
+			break;
+		case 6:
+			pattern = "0.000000";
+			break;
+		case 7:
+			pattern = "0.0000000";
+			break;
+		case 8:
+			pattern = "0.00000000";
+			break;
+		case 9:
+			pattern = "0.000000000";
+			break;
+		case 10:
+			pattern = "0.0000000000";
+			break;
+		default:
+			pattern = "0.00";
+			break; // Default to 2 decimal places with leading zero
+		}
+
+		// Explicitly set symbols for German locale (comma decimal separator)
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.GERMANY);
+		DecimalFormat df = new DecimalFormat(pattern, symbols);
+
+		LOG.debug("Created DecimalFormat with pattern '{}' using German symbols", pattern);
+		return df;
 	}
 }

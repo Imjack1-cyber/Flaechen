@@ -101,9 +101,8 @@ public class Kreis {
 	 * @param df The DecimalFormat instance to use.
 	 */
 	public void setDecimalFormat(DecimalFormat df) {
-		System.out.println("Kreis Bean: DecimalFormat set in Kreis object: " + (df != null ? df.toPattern() : "null")); // Debug
-																														// log
 		this.df = df;
+		System.out.println("Kreis Bean: DecimalFormat set in Kreis object: " + (df != null ? df.toPattern() : "null")); // Debug
 	}
 
 	// --- Formatting Helper Method ---

@@ -16,30 +16,25 @@ public class Dreieck {
 	private double beta;
 	private double gamma;
 
+	private double p_seiteA;
+	private double p_hoehe;
+	private double p_hoeheSeite;
+	private double p_seitenkante;
+	private double p_grundflaecheDiagonale;
+	private double p_grundflaeche;
+	private double p_mantelflaeche;
+	private double p_oberflaeche;
+	private double p_volumen;
+
 	private DecimalFormat df;
 
 	public Dreieck() {
 	}
 
-	public Dreieck(double a, double b, double c, double umfangDreieck, double flaecheninhaltDreieck, double hoeheA,
-			double hoeheB, double hoeheC, double alpha, double beta, double gamma) {
-		this.a = a;
-		this.b = b;
-		this.c = c;
-		this.umfangDreieck = umfangDreieck;
-		this.flaecheninhaltDreieck = flaecheninhaltDreieck;
-		this.hoeheA = hoeheA;
-		this.hoeheB = hoeheB;
-		this.hoeheC = hoeheC;
-		this.alpha = alpha;
-		this.beta = beta;
-		this.gamma = gamma;
-	}
-
 	public void setDecimalFormat(DecimalFormat df) {
-		System.out.println("Kreis Bean: DecimalFormat set in Kreis object: " + (df != null ? df.toPattern() : "null")); // Debug
-																														// log
 		this.df = df;
+		System.out.println(
+				"Dreieck Bean: DecimalFormat set in Dreieck object: " + (df != null ? df.toPattern() : "null")); // Debug
 	}
 
 	private String formatValue(double value) {
@@ -152,6 +147,78 @@ public class Dreieck {
 
 	public void setGamma(double gamma) {
 		this.gamma = gamma;
+	}
+
+	public String getSeiteA() {
+		return formatValue(this.p_seiteA);
+	}
+
+	public String getHoehe() {
+		return formatValue(this.p_hoehe);
+	}
+
+	public String getHoeheSeite() {
+		return formatValue(this.p_hoeheSeite);
+	}
+
+	public String getSeitenkante() {
+		return formatValue(this.p_seitenkante);
+	}
+
+	public String getGrundflaecheDiagonale() {
+		return formatValue(this.p_grundflaecheDiagonale);
+	}
+
+	public String getGrundflaechePyramide() {
+		return formatValue(this.p_grundflaeche);
+	}
+
+	public String getMantelflaechePyramide() {
+		return formatValue(this.p_mantelflaeche);
+	}
+
+	public String getOberflaechePyramide() {
+		return formatValue(this.p_oberflaeche);
+	}
+
+	public String getVolumenPyramide() {
+		return formatValue(this.p_volumen);
+	}
+
+	public void setSeiteA(double seiteA) {
+		this.p_seiteA = seiteA;
+	}
+
+	public void setHoehe(double hoehe) {
+		this.p_hoehe = hoehe;
+	}
+
+	public void setHoeheSeite(double hoeheSeite) {
+		this.p_hoeheSeite = hoeheSeite;
+	}
+
+	public void setSeitenkante(double seitenkante) {
+		this.p_seitenkante = seitenkante;
+	}
+
+	public void setGrundflaecheDiagonale(double grundflaecheDiagonale) {
+		this.p_grundflaecheDiagonale = grundflaecheDiagonale;
+	}
+
+	public void setGrundflaechePyramide(double grundflaechePyramide) {
+		this.p_grundflaeche = grundflaechePyramide;
+	}
+
+	public void setMantelflaechePyramide(double mantelflaechePyramide) {
+		this.p_mantelflaeche = mantelflaechePyramide;
+	}
+
+	public void setOberflaechePyramide(double oberflaechePyramide) {
+		this.p_oberflaeche = oberflaechePyramide;
+	}
+
+	public void setVolumenPyramide(double volumenPyramide) {
+		this.p_volumen = volumenPyramide;
 	}
 
 	@Override

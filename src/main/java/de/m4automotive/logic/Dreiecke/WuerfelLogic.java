@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.m4automotive.logic.DF;
-import de.m4automotive.model.Wuerfel;
+import de.m4automotive.model.Dreieck.Wuerfel;
 
 public class WuerfelLogic {
 

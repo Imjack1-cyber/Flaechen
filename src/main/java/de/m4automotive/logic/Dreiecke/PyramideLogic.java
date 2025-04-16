@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.m4automotive.logic.DF;
-import de.m4automotive.model.Pyramide;
+import de.m4automotive.model.Dreieck.Pyramide;
 
 public class PyramideLogic {
 

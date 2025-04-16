@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.m4automotive.logic.DF;
-import de.m4automotive.model.Kreis;
+import de.m4automotive.model.Kreis.Kreis;
 
 public class KreisLogic {
 

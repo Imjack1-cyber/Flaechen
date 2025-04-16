@@ -23,17 +23,17 @@ import de.m4automotive.logic.Dreiecke.QuaderLogic;
 import de.m4automotive.logic.Dreiecke.RechteckLogic;
 import de.m4automotive.logic.Dreiecke.TrapezLogic;
 import de.m4automotive.logic.Dreiecke.WuerfelLogic;
-import de.m4automotive.model.Dreieck;
-import de.m4automotive.model.Hexagon;
-import de.m4automotive.model.Octagon;
-import de.m4automotive.model.Parallelogramm;
-import de.m4automotive.model.Pentagon;
-import de.m4automotive.model.Prisma;
-import de.m4automotive.model.Pyramide;
-import de.m4automotive.model.Quader;
-import de.m4automotive.model.Rechteck;
-import de.m4automotive.model.Trapez;
-import de.m4automotive.model.Wuerfel;
+import de.m4automotive.model.Dreieck.Dreieck;
+import de.m4automotive.model.Dreieck.Hexagon;
+import de.m4automotive.model.Dreieck.Octagon;
+import de.m4automotive.model.Dreieck.Parallelogramm;
+import de.m4automotive.model.Dreieck.Pentagon;
+import de.m4automotive.model.Dreieck.Prisma;
+import de.m4automotive.model.Dreieck.Pyramide;
+import de.m4automotive.model.Dreieck.Quader;
+import de.m4automotive.model.Dreieck.Rechteck;
+import de.m4automotive.model.Dreieck.Trapez;
+import de.m4automotive.model.Dreieck.Wuerfel;
 
 @WebServlet(name = "/DreieckServlet", urlPatterns = ("/dreieck"))
 public class DreieckServlet extends HttpServlet {

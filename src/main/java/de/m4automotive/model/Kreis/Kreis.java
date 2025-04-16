@@ -1,4 +1,4 @@
-package de.m4automotive.model;
+package de.m4automotive.model.Kreis;
 
 import java.text.DecimalFormat;
 // Consider importing NumberFormat if you need locale-specific formatting later

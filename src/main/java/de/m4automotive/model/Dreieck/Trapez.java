@@ -1,4 +1,4 @@
-package de.m4automotive.model;
+package de.m4automotive.model.Dreieck;
 
 import java.text.DecimalFormat;
 

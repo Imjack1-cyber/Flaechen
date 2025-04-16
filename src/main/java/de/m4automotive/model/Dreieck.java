@@ -16,16 +16,6 @@ public class Dreieck {
 	private double beta;
 	private double gamma;
 
-	private double p_seiteA;
-	private double p_hoehe;
-	private double p_hoeheSeite;
-	private double p_seitenkante;
-	private double p_grundflaecheDiagonale;
-	private double p_grundflaeche;
-	private double p_mantelflaeche;
-	private double p_oberflaeche;
-	private double p_volumen;
-
 	private DecimalFormat df;
 
 	public Dreieck() {
@@ -45,8 +35,8 @@ public class Dreieck {
 		// 2. Check if the formatter instance variable (df) has been set
 		if (this.df == null) {
 			System.err.println(
-					"WARNING: Kreis.formatValue - DecimalFormat (df) is null. Returning unformatted value: " + value); // Log
-																														// warning
+					"WARNING: Dreieck.formatValue - DecimalFormat (df) is null. Returning unformatted value: " + value); // Log
+																															// warning
 			// Fallback: return unformatted double converted to a string
 			return String.valueOf(value);
 		}
@@ -55,7 +45,7 @@ public class Dreieck {
 			return this.df.format(value);
 		} catch (Exception e) {
 			// Catch potential formatting errors (though less common with standard patterns)
-			System.err.println("ERROR: Kreis.formatValue - Error formatting value " + value + " with pattern '"
+			System.err.println("ERROR: Dreieck.formatValue - Error formatting value " + value + " with pattern '"
 					+ this.df.toPattern() + "': " + e.getMessage());
 			return String.valueOf(value); // Fallback to unformatted on error
 		}
@@ -147,78 +137,6 @@ public class Dreieck {
 
 	public void setGamma(double gamma) {
 		this.gamma = gamma;
-	}
-
-	public String getSeiteA() {
-		return formatValue(this.p_seiteA);
-	}
-
-	public String getHoehe() {
-		return formatValue(this.p_hoehe);
-	}
-
-	public String getHoeheSeite() {
-		return formatValue(this.p_hoeheSeite);
-	}
-
-	public String getSeitenkante() {
-		return formatValue(this.p_seitenkante);
-	}
-
-	public String getGrundflaecheDiagonale() {
-		return formatValue(this.p_grundflaecheDiagonale);
-	}
-
-	public String getGrundflaechePyramide() {
-		return formatValue(this.p_grundflaeche);
-	}
-
-	public String getMantelflaechePyramide() {
-		return formatValue(this.p_mantelflaeche);
-	}
-
-	public String getOberflaechePyramide() {
-		return formatValue(this.p_oberflaeche);
-	}
-
-	public String getVolumenPyramide() {
-		return formatValue(this.p_volumen);
-	}
-
-	public void setSeiteA(double seiteA) {
-		this.p_seiteA = seiteA;
-	}
-
-	public void setHoehe(double hoehe) {
-		this.p_hoehe = hoehe;
-	}
-
-	public void setHoeheSeite(double hoeheSeite) {
-		this.p_hoeheSeite = hoeheSeite;
-	}
-
-	public void setSeitenkante(double seitenkante) {
-		this.p_seitenkante = seitenkante;
-	}
-
-	public void setGrundflaecheDiagonale(double grundflaecheDiagonale) {
-		this.p_grundflaecheDiagonale = grundflaecheDiagonale;
-	}
-
-	public void setGrundflaechePyramide(double grundflaechePyramide) {
-		this.p_grundflaeche = grundflaechePyramide;
-	}
-
-	public void setMantelflaechePyramide(double mantelflaechePyramide) {
-		this.p_mantelflaeche = mantelflaechePyramide;
-	}
-
-	public void setOberflaechePyramide(double oberflaechePyramide) {
-		this.p_oberflaeche = oberflaechePyramide;
-	}
-
-	public void setVolumenPyramide(double volumenPyramide) {
-		this.p_volumen = volumenPyramide;
 	}
 
 	@Override

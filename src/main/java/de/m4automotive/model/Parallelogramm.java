@@ -30,8 +30,9 @@ public class Parallelogramm {
 		// 2. Check if the formatter instance variable (df) has been set
 		if (this.df == null) {
 			System.err.println(
-					"WARNING: Kreis.formatValue - DecimalFormat (df) is null. Returning unformatted value: " + value); // Log
-																														// warning
+					"WARNING: Parallelogramm.formatValue - DecimalFormat (df) is null. Returning unformatted value: "
+							+ value); // Log
+			// warning
 			// Fallback: return unformatted double converted to a string
 			return String.valueOf(value);
 		}
@@ -40,7 +41,7 @@ public class Parallelogramm {
 			return this.df.format(value);
 		} catch (Exception e) {
 			// Catch potential formatting errors (though less common with standard patterns)
-			System.err.println("ERROR: Kreis.formatValue - Error formatting value " + value + " with pattern '"
+			System.err.println("ERROR: Parallelogramm.formatValue - Error formatting value " + value + " with pattern '"
 					+ this.df.toPattern() + "': " + e.getMessage());
 			return String.valueOf(value); // Fallback to unformatted on error
 		}
@@ -54,7 +55,7 @@ public class Parallelogramm {
 		return formatValue(this.pa_seiteB);
 	}
 
-	public String getPa_seiteC() {
+	public String getPa_hoeheA() {
 		return formatValue(this.pa_hoeheA);
 	}
 

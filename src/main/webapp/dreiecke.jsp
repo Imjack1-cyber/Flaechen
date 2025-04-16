@@ -6,16 +6,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/dreiecke.css">
-<title>Geometrie Rechner</title>
+<title>Dreiecke</title>
 </head>
 <header>
 	<nav>
 		<a href="kreise.jsp" class="nav-link">Kreise</a>
-		<a href="dreiecke.jsp" class="nav-link active">Flächen & Körper</a>
+		<a href="dreiecke.jsp" class="nav-link active">Dreiecke</a>
 	</nav>
 </header>
 <body>
-	<h1>Geometrische Berechnungen</h1>
 
 	<c:if test="${not empty errorMessage}">
 		<p class="error-message">${errorMessage}</p>
@@ -31,7 +30,7 @@
         <div class="tab-nav input-tabs">
             <button type="button" class="tab-button active" onclick="showInputTab('flaechen', this)">Flächen</button>
             <button type="button" class="tab-button" onclick="showInputTab('koerper', this)">Körper</button>
-            <button type="button" class="tab-button" onclick="showInputTab('common', this)">Anzeige</button>
+            <button type="button" class="tab-button" onclick="showInputTab('common', this)">Dezimalstellen</button>
         </div>
 
 		<%-- Tab Content Container für Eingaben --%>
@@ -171,9 +170,8 @@
             <%-- Tab 3: Anzeigeoptionen --%>
             <div id="input-tab-common" class="tab-content">
                  <div class="input-section">
-                    <h3>Anzeigeoptionen</h3>
+                    <h3>Dezimalstellen</h3>
                     <div class="form-row">
-                        <label for="decimalPlaces">Dezimalstellen:</label>
                         <input type="number" id="decimalPlaces" name="decimalPlaces" value="${not empty param.decimalPlaces ? param.decimalPlaces : '2'}" min="0" max="10" required>
                     </div>
                 </div>
@@ -182,16 +180,13 @@
         </div> <%-- End Input Tab Container --%>
 
 		<div class="controls-submit">
-            <label for="decimalPlacesSubmit" style="display:none;">Dezimalstellen:</label> <!-- Hidden label for accessibility if needed -->
-            <input type="number" id="decimalPlacesSubmit" name="decimalPlaces" value="${not empty param.decimalPlaces ? param.decimalPlaces : '2'}" min="0" max="10" required>
-            <label for="decimalPlacesSubmit" class="visually-hidden">Dezimalstellen</label> <!-- Better accessibility -->
 			<button type="submit" class="button submit-button">Berechne</button>
 		</div>
 	</form>
 
 	<!-- ==================== Results Section ==================== -->
 	<%-- Show results if *any* result bean is available in request scope --%>
-    <c:if test="${not empty dreieck or not empty pyramideErgebnis or not empty rechteckErgebnis or not empty trapezErgebnis or not empty parallelogrammErgebnis or not empty pentagonErgebnis or not empty hexagonErgebnis or not empty octagonErgebnis or not empty quaderErgebnis or not empty wuerfelErgebnis or not empty prismaErgebnis}">
+    <c:if test="${not empty dreieck or not empty pyramide or not empty rechteck or not empty trapez or not empty parallelogramm or not empty pentagon or not empty hexagon or not empty octagon or not empty quader or not empty wuerfel or not empty prisma}">
 		<details class="results-details" open>
 			<summary>
 				Ergebnisse <span id="copy-feedback" style="margin-left: 10px; font-weight: normal; color: green; display: none;"></span>
@@ -200,13 +195,13 @@
 			<%-- Tab Navigation für Ergebnisse --%>
 			<div class="tab-nav">
 				<button type="button" class="tab-button active" onclick="showResultTab('dreieck', this)">Dreieck</button>
-				<button type="button" class="tab-button" onclick="showResultTab('pyramide', this)">Pyramide</button>
-                <button type="button" class="tab-button" onclick="showResultTab('rechteck', this)">Rechteck</button>
+				<button type="button" class="tab-button" onclick="showResultTab('rechteck', this)">Rechteck</button>
                 <button type="button" class="tab-button" onclick="showResultTab('trapez', this)">Trapez</button>
                 <button type="button" class="tab-button" onclick="showResultTab('parallelogramm', this)">Parallelogramm</button>
-                <button type="button" class="tab-button" onclick="showResultTab('pentagon', this)">Fünfeck</button>
-                <button type="button" class="tab-button" onclick="showResultTab('hexagon', this)">Sechseck</button>
-                <button type="button" class="tab-button" onclick="showResultTab('octagon', this)">Achteck</button>
+                <button type="button" class="tab-button" onclick="showResultTab('pentagon', this)">Fünfeck (Pentagon)</button>
+                <button type="button" class="tab-button" onclick="showResultTab('hexagon', this)">Sechseck (Hexagon)</button>
+                <button type="button" class="tab-button" onclick="showResultTab('octagon', this)">Achteck (Octagon)</button>
+                <button type="button" class="tab-button" onclick="showResultTab('pyramide', this)">Pyramide</button>
                 <button type="button" class="tab-button" onclick="showResultTab('quader', this)">Quader</button>
                 <button type="button" class="tab-button" onclick="showResultTab('wuerfel', this)">Würfel</button>
                 <button type="button" class="tab-button" onclick="showResultTab('prisma', this)">Prisma</button>
@@ -219,7 +214,7 @@
 				<div id="result-tab-dreieck" class="tab-content active">
                     <div class="result-section DreieckResults">
 						<h3>Dreieck</h3>
-						<c:choose><c:when test="${not empty dreieck.a and dreieck.a ne 'NaN' and dreieck.a ne 'Ungültig'}">
+						<c:choose><c:when test="${not empty dreieck}">
                             <p id="result-dreieck-a"><span class="result-label">Seite a:</span> <span class="result-value">${dreieck.a}</span><button type="button" class="copy-button" data-copy-target-id="result-dreieck-a"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                             <p id="result-dreieck-b"><span class="result-label">Seite b:</span> <span class="result-value">${dreieck.b}</span><button type="button" class="copy-button" data-copy-target-id="result-dreieck-b"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                             <p id="result-dreieck-c"><span class="result-label">Seite c:</span> <span class="result-value">${dreieck.c}</span><button type="button" class="copy-button" data-copy-target-id="result-dreieck-c"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
@@ -239,16 +234,16 @@
 				<div id="result-tab-pyramide" class="tab-content">
 					<div class="result-section PyramideResults">
 						<h3>Quadratische Pyramide</h3>
-						<c:choose><c:when test="${not empty pyramideErgebnis.p_seiteA and pyramideErgebnis.p_seiteA ne 'NaN'}">
-							<p id="result-pyramide-seiteA"><span class="result-label">Grundseite (a):</span> <span class="result-value">${pyramideErgebnis.p_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-hoehe"><span class="result-label">Körperhöhe (h):</span> <span class="result-value">${pyramideErgebnis.p_hoehe}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-hoehe"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-hoeheSeite"><span class="result-label">Seitenhöhe (hs):</span> <span class="result-value">${pyramideErgebnis.p_hoeheSeite}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-hoeheSeite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-seitenkante"><span class="result-label">Seitenkante (s):</span> <span class="result-value">${pyramideErgebnis.p_seitenkante}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-seitenkante"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-grundflaeche"><span class="result-label">Grundfläche (G):</span> <span class="result-value">${pyramideErgebnis.p_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-mantelflaeche"><span class="result-label">Mantelfläche (M):</span> <span class="result-value">${pyramideErgebnis.p_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-oberflaeche"><span class="result-label">Oberfläche (O):</span> <span class="result-value">${pyramideErgebnis.p_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-volumen"><span class="result-label">Volumen (V):</span> <span class="result-value">${pyramideErgebnis.p_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-							<p id="result-pyramide-grundflaecheDiagonale"><span class="result-label">Grundfl.-Diagonale (d):</span> <span class="result-value">${pyramideErgebnis.p_grundflaecheDiagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-grundflaecheDiagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+						<c:choose><c:when test="${not empty pyramide}">
+							<p id="result-pyramide-seiteA"><span class="result-label">Grundseite (a):</span> <span class="result-value">${pyramide.p_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-hoehe"><span class="result-label">Körperhöhe (h):</span> <span class="result-value">${pyramide.p_hoehe}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-hoehe"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-hoeheSeite"><span class="result-label">Seitenhöhe (hs):</span> <span class="result-value">${pyramide.p_hoeheSeite}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-hoeheSeite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-seitenkante"><span class="result-label">Seitenkante (s):</span> <span class="result-value">${pyramide.p_seitenkante}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-seitenkante"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-grundflaeche"><span class="result-label">Grundfläche (G):</span> <span class="result-value">${pyramide.p_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-mantelflaeche"><span class="result-label">Mantelfläche (M):</span> <span class="result-value">${pyramide.p_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-oberflaeche"><span class="result-label">Oberfläche (O):</span> <span class="result-value">${pyramide.p_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-volumen"><span class="result-label">Volumen (V):</span> <span class="result-value">${pyramide.p_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+							<p id="result-pyramide-grundflaecheDiagonale"><span class="result-label">Grundfl.-Diagonale (d):</span> <span class="result-value">${pyramide.p_grundflaecheDiagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-pyramide-grundflaecheDiagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
 						</c:when><c:otherwise><p>Keine Pyramidendaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
 					</div>
 				</div>
@@ -257,12 +252,12 @@
                 <div id="result-tab-rechteck" class="tab-content">
                     <div class="result-section RechteckResults">
                         <h3>Rechteck</h3>
-                        <c:choose><c:when test="${not empty rechteckErgebnis.r_seiteA and rechteckErgebnis.r_seiteA ne 'NaN'}">
-                            <p id="result-rechteck-seiteA"><span class="result-label">Seite a:</span><span class="result-value">${rechteckErgebnis.r_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-rechteck-seiteB"><span class="result-label">Seite b:</span><span class="result-value">${rechteckErgebnis.r_seiteB}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-seiteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-rechteck-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${rechteckErgebnis.r_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-rechteck-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${rechteckErgebnis.r_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-rechteck-diagonale"><span class="result-label">Diagonale (d):</span><span class="result-value">${rechteckErgebnis.r_diagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-diagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                        <c:choose><c:when test="${not empty rechteck}">
+                            <p id="result-rechteck-seiteA"><span class="result-label">Seite a:</span><span class="result-value">${rechteck.r_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-rechteck-seiteB"><span class="result-label">Seite b:</span><span class="result-value">${rechteck.r_seiteB}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-seiteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-rechteck-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${rechteck.r_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-rechteck-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${rechteck.r_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-rechteck-diagonale"><span class="result-label">Diagonale (d):</span><span class="result-value">${rechteck.r_diagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-rechteck-diagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                         </c:when><c:otherwise><p>Keine Rechteckdaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -271,14 +266,14 @@
                 <div id="result-tab-trapez" class="tab-content">
                      <div class="result-section TrapezResults">
                         <h3>Trapez</h3>
-                         <c:choose><c:when test="${not empty trapezErgebnis.t_seiteA and trapezErgebnis.t_seiteA ne 'NaN'}">
-                            <p id="result-trapez-seiteA"><span class="result-label">Seite a:</span><span class="result-value">${trapezErgebnis.t_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-trapez-seiteB"><span class="result-label">Seite b:</span><span class="result-value">${trapezErgebnis.t_seiteB}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-trapez-seiteC"><span class="result-label">Seite c:</span><span class="result-value">${trapezErgebnis.t_seiteC}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteC"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-trapez-seiteD"><span class="result-label">Seite d:</span><span class="result-value">${trapezErgebnis.t_seiteD}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteD"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-trapez-hoehe"><span class="result-label">Höhe (h):</span><span class="result-value">${trapezErgebnis.t_hoehe}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-hoehe"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-trapez-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${trapezErgebnis.t_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-trapez-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${trapezErgebnis.t_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                         <c:choose><c:when test="${not empty trapez}">
+                            <p id="result-trapez-seiteA"><span class="result-label">Seite a:</span><span class="result-value">${trapez.t_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-trapez-seiteB"><span class="result-label">Seite b:</span><span class="result-value">${trapez.t_seiteB}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-trapez-seiteC"><span class="result-label">Seite c:</span><span class="result-value">${trapez.t_seiteC}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteC"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-trapez-seiteD"><span class="result-label">Seite d:</span><span class="result-value">${trapez.t_seiteD}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-seiteD"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-trapez-hoehe"><span class="result-label">Höhe (h):</span><span class="result-value">${trapez.t_hoehe}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-hoehe"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-trapez-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${trapez.t_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-trapez-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${trapez.t_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-trapez-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                         </c:when><c:otherwise><p>Keine Trapezdaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -287,12 +282,12 @@
                 <div id="result-tab-parallelogramm" class="tab-content">
                      <div class="result-section ParallelogrammResults">
                         <h3>Parallelogramm</h3>
-                         <c:choose><c:when test="${not empty parallelogrammErgebnis.pa_seiteA and parallelogrammErgebnis.pa_seiteA ne 'NaN'}">
-                            <p id="result-parallelogramm-seiteA"><span class="result-label">Seite a:</span><span class="result-value">${parallelogrammErgebnis.pa_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-parallelogramm-seiteB"><span class="result-label">Seite b:</span><span class="result-value">${parallelogrammErgebnis.pa_seiteB}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-seiteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-parallelogramm-hoeheA"><span class="result-label">Höhe auf a (ha):</span><span class="result-value">${parallelogrammErgebnis.pa_hoeheA}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-hoeheA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-parallelogramm-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${parallelogrammErgebnis.pa_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-parallelogramm-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${parallelogrammErgebnis.pa_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                         <c:choose><c:when test="${not empty parallelogramm}">
+                            <p id="result-parallelogramm-seiteA"><span class="result-label">Seite a:</span><span class="result-value">${parallelogramm.pa_seiteA}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-seiteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-parallelogramm-seiteB"><span class="result-label">Seite b:</span><span class="result-value">${parallelogramm.pa_seiteB}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-seiteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-parallelogramm-hoeheA"><span class="result-label">Höhe auf a (ha):</span><span class="result-value">${parallelogramm.pa_hoeheA}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-hoeheA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-parallelogramm-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${parallelogramm.pa_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-parallelogramm-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${parallelogramm.pa_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-parallelogramm-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                         </c:when><c:otherwise><p>Keine Parallelogrammdaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -301,12 +296,12 @@
                 <div id="result-tab-pentagon" class="tab-content">
                      <div class="result-section PentagonResults">
                         <h3>Regelmäßiges Fünfeck</h3>
-                         <c:choose><c:when test="${not empty pentagonErgebnis.pe_seite and pentagonErgebnis.pe_seite ne 'NaN'}">
-                            <p id="result-pentagon-seite"><span class="result-label">Seite (a):</span><span class="result-value">${pentagonErgebnis.pe_seite}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-seite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-pentagon-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${pentagonErgebnis.pe_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-pentagon-radiusInkreis"><span class="result-label">Inkreisradius (r):</span><span class="result-value">${pentagonErgebnis.pe_radiusInkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-radiusInkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-pentagon-radiusUmkreis"><span class="result-label">Umkreisradius (R):</span><span class="result-value">${pentagonErgebnis.pe_radiusUmkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-radiusUmkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-pentagon-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${pentagonErgebnis.pe_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                         <c:choose><c:when test="${not empty pentagon}">
+                            <p id="result-pentagon-seite"><span class="result-label">Seite (a):</span><span class="result-value">${pentagon.pe_seite}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-seite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-pentagon-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${pentagon.pe_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-pentagon-radiusInkreis"><span class="result-label">Inkreisradius (r):</span><span class="result-value">${pentagon.pe_radiusInkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-radiusInkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-pentagon-radiusUmkreis"><span class="result-label">Umkreisradius (R):</span><span class="result-value">${pentagon.pe_radiusUmkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-radiusUmkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-pentagon-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${pentagon.pe_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-pentagon-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                         </c:when><c:otherwise><p>Keine Fünfeckdaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -315,12 +310,12 @@
                 <div id="result-tab-hexagon" class="tab-content">
                      <div class="result-section HexagonResults">
                         <h3>Regelmäßiges Sechseck</h3>
-                         <c:choose><c:when test="${not empty hexagonErgebnis.h_seite and hexagonErgebnis.h_seite ne 'NaN'}">
-                            <p id="result-hexagon-seite"><span class="result-label">Seite (a):</span><span class="result-value">${hexagonErgebnis.h_seite}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-seite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-hexagon-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${hexagonErgebnis.h_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-hexagon-radiusInkreis"><span class="result-label">Inkreisradius (r):</span><span class="result-value">${hexagonErgebnis.h_radiusInkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-radiusInkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-hexagon-radiusUmkreis"><span class="result-label">Umkreisradius (R):</span><span class="result-value">${hexagonErgebnis.h_radiusUmkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-radiusUmkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-hexagon-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${hexagonErgebnis.h_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                         <c:choose><c:when test="${not empty hexagon}">
+                            <p id="result-hexagon-seite"><span class="result-label">Seite (a):</span><span class="result-value">${hexagon.h_seite}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-seite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-hexagon-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${hexagon.h_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-hexagon-radiusInkreis"><span class="result-label">Inkreisradius (r):</span><span class="result-value">${hexagon.h_radiusInkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-radiusInkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-hexagon-radiusUmkreis"><span class="result-label">Umkreisradius (R):</span><span class="result-value">${hexagon.h_radiusUmkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-radiusUmkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-hexagon-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${hexagon.h_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-hexagon-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                          </c:when><c:otherwise><p>Keine Sechseckdaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -329,12 +324,12 @@
                 <div id="result-tab-octagon" class="tab-content">
                      <div class="result-section OctagonResults">
                         <h3>Regelmäßiges Achteck</h3>
-                        <c:choose><c:when test="${not empty octagonErgebnis.o_seite and octagonErgebnis.o_seite ne 'NaN'}">
-                            <p id="result-octagon-seite"><span class="result-label">Seite (a):</span><span class="result-value">${octagonErgebnis.o_seite}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-seite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-octagon-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${octagonErgebnis.o_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-octagon-radiusInkreis"><span class="result-label">Inkreisradius (r):</span><span class="result-value">${octagonErgebnis.o_radiusInkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-radiusInkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-octagon-radiusUmkreis"><span class="result-label">Umkreisradius (R):</span><span class="result-value">${octagonErgebnis.o_radiusUmkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-radiusUmkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-octagon-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${octagonErgebnis.o_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                        <c:choose><c:when test="${not empty octagon}">
+                            <p id="result-octagon-seite"><span class="result-label">Seite (a):</span><span class="result-value">${octagon.o_seite}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-seite"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-octagon-umfang"><span class="result-label">Umfang (U):</span><span class="result-value">${octagon.o_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-octagon-radiusInkreis"><span class="result-label">Inkreisradius (r):</span><span class="result-value">${octagon.o_radiusInkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-radiusInkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-octagon-radiusUmkreis"><span class="result-label">Umkreisradius (R):</span><span class="result-value">${octagon.o_radiusUmkreis}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-radiusUmkreis"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-octagon-flaecheninhalt"><span class="result-label">Flächeninhalt (A):</span><span class="result-value">${octagon.o_flaecheninhalt}</span><button type="button" class="copy-button" data-copy-target-id="result-octagon-flaecheninhalt"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                         </c:when><c:otherwise><p>Keine Achteckdaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -343,15 +338,15 @@
                 <div id="result-tab-quader" class="tab-content">
                      <div class="result-section QuaderResults">
                         <h3>Quader</h3>
-                         <c:choose><c:when test="${not empty quaderErgebnis.q_kanteA and quaderErgebnis.q_kanteA ne 'NaN'}">
-                            <p id="result-quader-kanteA"><span class="result-label">Kante a:</span><span class="result-value">${quaderErgebnis.q_kanteA}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-kanteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-quader-kanteB"><span class="result-label">Kante b:</span><span class="result-value">${quaderErgebnis.q_kanteB}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-kanteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-quader-kanteC"><span class="result-label">Kante c (Höhe):</span><span class="result-value">${quaderErgebnis.q_kanteC}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-kanteC"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-quader-volumen"><span class="result-label">Volumen (V):</span><span class="result-value">${quaderErgebnis.q_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-quader-grundflaeche"><span class="result-label">Grundfläche (G):</span><span class="result-value">${quaderErgebnis.q_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-quader-mantelflaeche"><span class="result-label">Mantelfläche (M):</span><span class="result-value">${quaderErgebnis.q_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-quader-oberflaeche"><span class="result-label">Oberfläche (O):</span><span class="result-value">${quaderErgebnis.q_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-quader-raumdiagonale"><span class="result-label">Raumdiagonale (d):</span><span class="result-value">${quaderErgebnis.q_raumdiagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-raumdiagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                         <c:choose><c:when test="${not empty quader}">
+                            <p id="result-quader-kanteA"><span class="result-label">Kante a:</span><span class="result-value">${quader.q_kanteA}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-kanteA"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-quader-kanteB"><span class="result-label">Kante b:</span><span class="result-value">${quader.q_kanteB}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-kanteB"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-quader-kanteC"><span class="result-label">Kante c (Höhe):</span><span class="result-value">${quader.q_kanteC}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-kanteC"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-quader-volumen"><span class="result-label">Volumen (V):</span><span class="result-value">${quader.q_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-quader-grundflaeche"><span class="result-label">Grundfläche (G):</span><span class="result-value">${quader.q_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-quader-mantelflaeche"><span class="result-label">Mantelfläche (M):</span><span class="result-value">${quader.q_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-quader-oberflaeche"><span class="result-label">Oberfläche (O):</span><span class="result-value">${quader.q_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-quader-raumdiagonale"><span class="result-label">Raumdiagonale (d):</span><span class="result-value">${quader.q_raumdiagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-quader-raumdiagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                         </c:when><c:otherwise><p>Keine Quaderdaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -360,15 +355,15 @@
                 <div id="result-tab-wuerfel" class="tab-content">
                      <div class="result-section WuerfelResults">
                         <h3>Würfel</h3>
-                         <c:choose><c:when test="${not empty wuerfelErgebnis.w_kante and wuerfelErgebnis.w_kante ne 'NaN'}">
-                            <p id="result-wuerfel-kante"><span class="result-label">Kante (a):</span><span class="result-value">${wuerfelErgebnis.w_kante}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-kante"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-wuerfel-volumen"><span class="result-label">Volumen (V):</span><span class="result-value">${wuerfelErgebnis.w_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-wuerfel-grundflaeche"><span class="result-label">Grundfläche (G):</span><span class="result-value">${wuerfelErgebnis.w_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-wuerfel-mantelflaeche"><span class="result-label">Mantelfläche (M):</span><span class="result-value">${wuerfelErgebnis.w_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-wuerfel-oberflaeche"><span class="result-label">Oberfläche (O):</span><span class="result-value">${wuerfelErgebnis.w_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-wuerfel-raumdiagonale"><span class="result-label">Raumdiagonale (d):</span><span class="result-value">${wuerfelErgebnis.w_raumdiagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-raumdiagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-wuerfel-umfang_seitenflaeche"><span class="result-label">Umfang Seitenfläche:</span><span class="result-value">${wuerfelErgebnis.w_umfang_seitenflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-umfang_seitenflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-wuerfel-summe_aller_kanten"><span class="result-label">Summe aller Kanten:</span><span class="result-value">${wuerfelErgebnis.w_summe_aller_kanten}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-summe_aller_kanten"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                         <c:choose><c:when test="${not empty wuerfel}">
+                            <p id="result-wuerfel-kante"><span class="result-label">Kante (a):</span><span class="result-value">${wuerfel.w_kante}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-kante"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-wuerfel-volumen"><span class="result-label">Volumen (V):</span><span class="result-value">${wuerfel.w_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-wuerfel-grundflaeche"><span class="result-label">Grundfläche (G):</span><span class="result-value">${wuerfel.w_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-wuerfel-mantelflaeche"><span class="result-label">Mantelfläche (M):</span><span class="result-value">${wuerfel.w_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-wuerfel-oberflaeche"><span class="result-label">Oberfläche (O):</span><span class="result-value">${wuerfel.w_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-wuerfel-raumdiagonale"><span class="result-label">Raumdiagonale (d):</span><span class="result-value">${wuerfel.w_raumdiagonale}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-raumdiagonale"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-wuerfel-umfang_seitenflaeche"><span class="result-label">Umfang Seitenfläche:</span><span class="result-value">${wuerfel.w_umfang_seitenflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-umfang_seitenflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-wuerfel-summe_aller_kanten"><span class="result-label">Summe aller Kanten:</span><span class="result-value">${wuerfel.w_summe_aller_kanten}</span><button type="button" class="copy-button" data-copy-target-id="result-wuerfel-summe_aller_kanten"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                          </c:when><c:otherwise><p>Keine Würfeldaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>
@@ -377,13 +372,13 @@
                 <div id="result-tab-prisma" class="tab-content">
                     <div class="result-section PrismaResults">
                         <h3>Gerades Prisma</h3>
-                         <c:choose><c:when test="${not empty prismaErgebnis.pr_grundflaeche and prismaErgebnis.pr_grundflaeche ne 'NaN'}">
-                            <p id="result-prisma-grundflaeche"><span class="result-label">Grundfläche (G):</span><span class="result-value">${prismaErgebnis.pr_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-prisma-umfang"><span class="result-label">Umfang Grundfläche (Ug):</span><span class="result-value">${prismaErgebnis.pr_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-prisma-hoehe"><span class="result-label">Höhe (h):</span><span class="result-value">${prismaErgebnis.pr_hoehe}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-hoehe"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-prisma-volumen"><span class="result-label">Volumen (V):</span><span class="result-value">${prismaErgebnis.pr_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-prisma-mantelflaeche"><span class="result-label">Mantelfläche (M):</span><span class="result-value">${prismaErgebnis.pr_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
-                            <p id="result-prisma-oberflaeche"><span class="result-label">Oberfläche (O):</span><span class="result-value">${prismaErgebnis.pr_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                         <c:choose><c:when test="${not empty prisma}">
+                            <p id="result-prisma-grundflaeche"><span class="result-label">Grundfläche (G):</span><span class="result-value">${prisma.pr_grundflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-grundflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-prisma-umfang"><span class="result-label">Umfang Grundfläche (Ug):</span><span class="result-value">${prisma.pr_umfang}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-umfang"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-prisma-hoehe"><span class="result-label">Höhe (h):</span><span class="result-value">${prisma.pr_hoehe}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-hoehe"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-prisma-volumen"><span class="result-label">Volumen (V):</span><span class="result-value">${prisma.pr_volumen}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-volumen"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-prisma-mantelflaeche"><span class="result-label">Mantelfläche (M):</span><span class="result-value">${prisma.pr_mantelflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-mantelflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
+                            <p id="result-prisma-oberflaeche"><span class="result-label">Oberfläche (O):</span><span class="result-value">${prisma.pr_oberflaeche}</span><button type="button" class="copy-button" data-copy-target-id="result-prisma-oberflaeche"><%@ include file="jsp_pages/copyIcon.jsp"%></button></p>
                         </c:when><c:otherwise><p>Keine Prismadaten berechnet oder Eingabe unzureichend.</p></c:otherwise></c:choose>
                     </div>
                 </div>

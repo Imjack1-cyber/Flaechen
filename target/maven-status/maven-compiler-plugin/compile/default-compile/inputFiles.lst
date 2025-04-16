@@ -1,4 +1,15 @@
 C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\controller\DreieckServlet.java
 C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\controller\KreisServlet.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\logic\berechneDreiecke.java
 C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Dreieck.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Hexagon.java
 C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Kreis.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Octagon.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Parallelogramm.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Pentagon.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Prisma.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Pyramide.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Quader.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Rechteck.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Trapez.java
+C:\dev\eclipse\workspace\Flaechen\src\main\java\de\m4automotive\model\Wuerfel.java

@@ -33,9 +33,10 @@ public class Pyramide {
 		}
 		// 2. Check if the formatter instance variable (df) has been set
 		if (this.df == null) {
-			System.err.println(
-					"WARNING: Kreis.formatValue - DecimalFormat (df) is null. Returning unformatted value: " + value); // Log
-																														// warning
+			System.err
+					.println("WARNING: Pyramide.formatValue - DecimalFormat (df) is null. Returning unformatted value: "
+							+ value); // Log
+										// warning
 			// Fallback: return unformatted double converted to a string
 			return String.valueOf(value);
 		}
@@ -44,7 +45,7 @@ public class Pyramide {
 			return this.df.format(value);
 		} catch (Exception e) {
 			// Catch potential formatting errors (though less common with standard patterns)
-			System.err.println("ERROR: Kreis.formatValue - Error formatting value " + value + " with pattern '"
+			System.err.println("ERROR: Pyramide.formatValue - Error formatting value " + value + " with pattern '"
 					+ this.df.toPattern() + "': " + e.getMessage());
 			return String.valueOf(value); // Fallback to unformatted on error
 		}
